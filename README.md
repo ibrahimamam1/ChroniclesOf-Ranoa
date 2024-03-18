@@ -4,6 +4,12 @@
 
 This is the official repository for our semester project. 
 
+
+
+
+
+
+
 # INSTRUCTIONS
 You can use git to clone this repository and work independently from your PC. In the source folder there is a package called game. All your java classes should be part of that package. Avoid writing in the Main class. You can create classes like level1.java or level1_whatever_you_want.Java etc and write all your code in there. You can commit your changes anytime , i will be reviewing the pull request regurlarly.
 
