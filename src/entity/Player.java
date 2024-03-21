@@ -24,7 +24,7 @@ public class Player extends Entity{
     speed = 4;
 
     getPlayerImage();
-    direction = "down";
+    direction = "idle";
   }
 
   public void update()
@@ -57,6 +57,7 @@ public class Player extends Entity{
         spriteCounter = 0;
       }
     }
+    else direction = "idle";
     
   }
 
@@ -64,6 +65,9 @@ public class Player extends Entity{
   {
     BufferedImage image = null;
     switch(direction){
+      case "idle":
+        image = idle;
+        break;
       case "up":
         if(spriteNum == 1)
           image = up1;
@@ -89,11 +93,12 @@ public class Player extends Entity{
           image = right2;
         break;
     }
-    g2.drawImage(image, x, y , gp.tileSize , gp.tileSize , null);
+    g2.drawImage(image, x, y , gp.tileSize*3 , gp.tileSize*3 , null);
   }
 
   public void getPlayerImage(){
     try{
+      idle = ImageIO.read(getClass().getResourceAsStream("/assets/boy_idle.png"));
       up1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_up_1.png"));
       up2 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_up_2.png"));
       down1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_down_1.png"));
