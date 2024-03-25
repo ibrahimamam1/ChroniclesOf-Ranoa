@@ -11,8 +11,8 @@ import game.GamePanel;
 
 public class TileManager {
   GamePanel gp;
-  Tile[] tile;
-  int mapTileNum[][]; // will store map information in here
+  public Tile[] tile;
+  public int mapTileNum[][]; // will store map information in here
 
 
   public TileManager(GamePanel gp) {
@@ -29,13 +29,16 @@ public class TileManager {
 
       tile[2] = new Tile();
       tile[2].image = ImageIO.read(getClass().getResource("/assets/tilesets/wall.png")); //wall tiles
+      tile[2].walkable = false;
 
       
       tile[3] = new Tile();
       tile[3].image = ImageIO.read(getClass().getResource("/assets/tilesets/Water.png")); //water tiles
+      tile[3].walkable = false;
 
       tile[4] = new Tile();
       tile[4].image = ImageIO.read(getClass().getResource("/assets/tilesets/tree.png")); //tree tiles
+      tile[4].walkable = false;
 
       tile[5] = new Tile();
       tile[5].image = ImageIO.read(getClass().getResource("/assets/tilesets/sand.png")); //sand tiles
