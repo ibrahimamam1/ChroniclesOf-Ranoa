@@ -21,11 +21,11 @@ public class Player extends Entity{
     this.gp = gp;
     this.keyH = keyH;
 
-    worldX = 100;
-    worldY = 100;
+    worldX = 500;
+    worldY = 500;
     speed = 4;
-    screenX = (gp.screenWidth/2) - (gp.tileSize * 3 /2);
-    screenY = (gp.screenHeight/2) - (gp.tileSize * 3 /2);
+    screenX = (gp.screenWidth/2) - (gp.tileSize/2);
+    screenY = (gp.screenHeight/2) - (gp.tileSize/2);
 
     getPlayerImage();
     direction = "idle";

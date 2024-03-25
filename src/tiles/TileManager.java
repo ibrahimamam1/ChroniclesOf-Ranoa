@@ -32,7 +32,7 @@ public class TileManager {
 
       
       tile[3] = new Tile();
-      tile[3].image = ImageIO.read(getClass().getResource("/assets/tilesets/water.png")); //water tiles
+      tile[3].image = ImageIO.read(getClass().getResource("/assets/tilesets/Water.png")); //water tiles
 
       tile[4] = new Tile();
       tile[4].image = ImageIO.read(getClass().getResource("/assets/tilesets/tree.png")); //tree tiles
@@ -59,8 +59,15 @@ public class TileManager {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , gp.tileSize , gp.tileSize , null);
+        //only draw tiles within visible range
+        if(worldX > gp.player.worldX - gp.player.screenX - gp.tileSize && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize&&
+          worldY > gp.player.worldY - gp.player.screenY - gp.tileSize && worldY < gp.player.worldY + gp.player.screenY + gp.tileSize)
+          {
+            g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , gp.tileSize , gp.tileSize , null);
+          }
       }
+
+        
     } 
   }
 
