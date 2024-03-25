@@ -14,14 +14,18 @@ public class Player extends Entity{
   
   GamePanel gp;
   KeyHandler keyH;
+  public int screenX;
+  public int screenY; //Players positio on screen
 
   public Player(GamePanel gp , KeyHandler keyH){
     this.gp = gp;
     this.keyH = keyH;
 
-    x = 100;
-    y = 100;
+    worldX = 500;
+    worldY = 500;
     speed = 4;
+    screenX = (gp.screenWidth/2) - (gp.tileSize/2);
+    screenY = (gp.screenHeight/2) - (gp.tileSize/2);
 
     getPlayerImage();
     direction = "idle";
@@ -33,19 +37,19 @@ public class Player extends Entity{
     {
       if(keyH.upPressed == true){
         direction = "up";
-        y -= speed;
+        worldY -= speed;
       }
       if(keyH.downPressed == true){
         direction = "down";
-        y += speed;
+        worldY += speed;
       }
       if(keyH.leftPressed == true){
         direction = "left";
-        x -= speed;
+        worldX-= speed;
       }
       if(keyH.rightPressed == true){
         direction = "right";
-        x += speed;
+        worldX += speed;
       }
   
       //simple sprite changer , the sprite will change after every 10 frames
@@ -93,7 +97,7 @@ public class Player extends Entity{
           image = right2;
         break;
     }
-    g2.drawImage(image, x, y , gp.tileSize*3 , gp.tileSize*3 , null);
+    g2.drawImage(image, screenX, screenY , gp.tileSize*3 , gp.tileSize*3 , null);
   }
 
   public void getPlayerImage(){
