@@ -13,5 +13,8 @@ public class App {
         window.setTitle("Chronicles Of Ranoa");
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamePanel.setupGame();
+        gamePanel.startGameThread();
     }
 }

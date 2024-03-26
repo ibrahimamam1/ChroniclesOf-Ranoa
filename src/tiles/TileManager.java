@@ -25,16 +25,16 @@ public class TileManager {
       tile[0].image = ImageIO.read(getClass().getResource("/assets/tilesets/grass.png")); //grass tiles
 
       tile[1] = new Tile();
-      tile[1].image = ImageIO.read(getClass().getResource("/assets/tilesets/earth.png")); //earth tiles
+      tile[1].image = ImageIO.read(getClass().getResource("/assets/tilesets/wall.png")); //wall tiles
+      tile[1].walkable = false;
 
       tile[2] = new Tile();
-      tile[2].image = ImageIO.read(getClass().getResource("/assets/tilesets/wall.png")); //wall tiles
+      tile[2].image = ImageIO.read(getClass().getResource("/assets/tilesets/Water.png")); //water tiles
       tile[2].walkable = false;
 
       
       tile[3] = new Tile();
-      tile[3].image = ImageIO.read(getClass().getResource("/assets/tilesets/Water.png")); //water tiles
-      tile[3].walkable = false;
+      tile[3].image = ImageIO.read(getClass().getResource("/assets/tilesets/earth.png")); //earth tiles
 
       tile[4] = new Tile();
       tile[4].image = ImageIO.read(getClass().getResource("/assets/tilesets/tree.png")); //tree tiles
