@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
   //Controllers
   Thread gameThread;
   KeyHandler keyH = new KeyHandler();
+  public SoundManager soundManager = new SoundManager();
   public ColisionDetector colisionDetector = new ColisionDetector(this);
   public AssetSetter assetSetter = new AssetSetter(this);
 
@@ -56,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable{
 
   public void setupGame() {
     assetSetter.setObject();
+    playMusic(0);
   }
   public void startGameThread(){
     gameThread = new Thread(this);
@@ -104,5 +106,18 @@ public class GamePanel extends JPanel implements Runnable{
     //PLAYER
     player.draw(g2);
     g2.dispose();
+  }
+
+  public void playMusic(int i) {
+    soundManager.setFile(i);
+    soundManager.play();
+    soundManager.loop();
+  }
+  public void stopMusic() {
+    soundManager.stop();
+  }
+  public void playSoundEffect(int i) {
+    soundManager.setFile(i);
+    soundManager.play();
   }
 }
