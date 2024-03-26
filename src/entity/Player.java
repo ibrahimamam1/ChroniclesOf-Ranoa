@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -16,18 +17,22 @@ public class Player extends Entity{
   KeyHandler keyH;
   public int screenX;
   public int screenY; //Players positio on screen
+  int hasKey = 0;
 
   public Player(GamePanel gp , KeyHandler keyH){
     this.gp = gp;
     this.keyH = keyH;
 
-    worldX = 500;
-    worldY = 500;
+    worldX = 1100;
+    worldY = 900;
     speed = 4;
     screenX = (gp.screenWidth/2) - (gp.tileSize/2);
     screenY = (gp.screenHeight/2) - (gp.tileSize/2);
 
     getPlayerImage();
+    solidArea = new Rectangle(8 ,  16 , 32  , 32); //solid are dimesion is smaller than actual character
+    solidAreaDefaultX = 8;
+    solidAreaDefaultY =  32;
     direction = "idle";
   }
 
@@ -37,21 +42,37 @@ public class Player extends Entity{
     {
       if(keyH.upPressed == true){
         direction = "up";
-        worldY -= speed;
       }
       if(keyH.downPressed == true){
         direction = "down";
-        worldY += speed;
       }
       if(keyH.leftPressed == true){
         direction = "left";
-        worldX-= speed;
       }
       if(keyH.rightPressed == true){
         direction = "right";
-        worldX += speed;
       }
-  
+      
+      gp.colisionDetector.checkTile(this);
+      int objIndex = gp.colisionDetector.checkObject(this, true);
+      pickUpObject(objIndex);
+
+      if(this.colisionOn ==  false) {
+        switch(direction) {
+          case "up" : 
+            worldY -= speed;  
+            break;
+          case "down" : 
+            worldY += speed;
+            break;
+          case "left" : 
+            worldX-= speed;
+            break;
+          case "right" : 
+            worldX += speed;
+            break;
+        }
+      }
       //simple sprite changer , the sprite will change after every 10 frames
       spriteCounter++;
       if(spriteCounter>10){
@@ -64,7 +85,25 @@ public class Player extends Entity{
     else direction = "idle";
     
   }
-
+  public void pickUpObject(int i) {
+    if(i != -1) {
+      String objName = gp.obj[i].name;
+      switch(objName) {
+        case "Key":
+          gp.obj[i] = null;
+          hasKey++;
+        break;
+        case "Door":
+        if(hasKey > 0) {
+          gp.obj[i] = null;
+          hasKey--;
+        }
+          
+        break;
+      }
+      
+    }
+  }
   public void draw(Graphics2D g2)
   {
     BufferedImage image = null;
@@ -97,7 +136,7 @@ public class Player extends Entity{
           image = right2;
         break;
     }
-    g2.drawImage(image, screenX, screenY , gp.tileSize*3 , gp.tileSize*3 , null);
+    g2.drawImage(image, screenX, screenY , gp.tileSize*2 , gp.tileSize*2 , null);
   }
 
   public void getPlayerImage(){
