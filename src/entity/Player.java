@@ -91,14 +91,20 @@ public class Player extends Entity{
       switch(objName) {
         case "Key":
           gp.obj[i] = null;
+          gp.playSoundEffect(1);
           hasKey++;
         break;
         case "Door":
         if(hasKey > 0) {
           gp.obj[i] = null;
+          gp.playSoundEffect(2);
           hasKey--;
         }
-          
+        break;
+        case "Boots":
+          gp.obj[i] = null;
+          gp.playSoundEffect(3);
+          speed += 2;
         break;
       }
       
