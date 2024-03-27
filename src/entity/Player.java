@@ -24,7 +24,7 @@ public class Player extends Entity{
     this.keyH = keyH;
 
     worldX = 1100;
-    worldY = 900;
+    worldY = 500;
     speed = 4;
     screenX = (gp.screenWidth/2) - (gp.tileSize/2);
     screenY = (gp.screenHeight/2) - (gp.tileSize/2);
@@ -153,7 +153,7 @@ public class Player extends Entity{
           image = right2;
         break;
     }
-    g2.drawImage(image, screenX, screenY , gp.tileSize*2 , gp.tileSize*2 , null);
+    g2.drawImage(image, screenX, screenY , gp.tileSize*2, gp.tileSize*2  , null);
   }
 
   public void getPlayerImage(){
