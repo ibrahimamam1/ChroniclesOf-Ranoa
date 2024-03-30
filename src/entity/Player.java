@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import game.GamePanel;
 import game.KeyHandler;
+import game.UtilityTool;
 
 public class Player extends Entity{
   
@@ -24,7 +25,7 @@ public class Player extends Entity{
     this.keyH = keyH;
 
     worldX = 1100;
-    worldY = 900;
+    worldY = 1000;
     speed = 4;
     screenX = (gp.screenWidth/2) - (gp.tileSize/2);
     screenY = (gp.screenHeight/2) - (gp.tileSize/2);
@@ -121,6 +122,35 @@ public class Player extends Entity{
       
     }
   }
+
+  public void getPlayerImage(){
+   
+    idle = setup("boy_idle");
+    up1 = setup("boy_up_1");
+    up2 = setup("boy_up_2");
+    down1 = setup("boy_down_1");
+    down2 = setup("boy_down_2");
+    left1 = setup("boy_left_1");
+    left2 = setup("boy_left_2");
+    right1 = setup("boy_right_1");
+    right2 = setup("boy_right_2");
+  }
+
+  public BufferedImage setup(String imageName){
+    UtilityTool uTool = new UtilityTool();
+    BufferedImage scaledImage = null;
+
+    try {
+      scaledImage = ImageIO.read(getClass().getResourceAsStream("/assets/" + imageName + ".png"));
+      //scaledImage = uTool.scaleImage(scaledImage, gp.tileSize*2, gp.tileSize*2);
+    }
+    catch(IOException e) {
+      e.printStackTrace();
+    }
+
+    return scaledImage;
+  }
+
   public void draw(Graphics2D g2)
   {
     BufferedImage image = null;
@@ -153,22 +183,6 @@ public class Player extends Entity{
           image = right2;
         break;
     }
-    g2.drawImage(image, screenX, screenY , gp.tileSize*2 , gp.tileSize*2 , null);
-  }
-
-  public void getPlayerImage(){
-    try{
-      idle = ImageIO.read(getClass().getResourceAsStream("/assets/boy_idle.png"));
-      up1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_up_1.png"));
-      up2 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_up_2.png"));
-      down1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_down_1.png"));
-      down2 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_down_2.png"));
-      left1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_left_1.png"));
-      left2 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_left_2.png"));
-      right1 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_right_1.png"));
-      right2 = ImageIO.read(getClass().getResourceAsStream("/assets/boy_right_2.png"));
-    }catch(IOException e){
-      e.printStackTrace();
-    }
+    g2.drawImage(image, screenX, screenY , null);
   }
 }
