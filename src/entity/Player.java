@@ -18,7 +18,6 @@ public class Player extends Entity{
   KeyHandler keyH;
   public int screenX;
   public int screenY; //Players positio on screen
-  public int hasKey = 0;
 
   public Player(GamePanel gp , KeyHandler keyH){
     this.gp = gp;
@@ -88,37 +87,7 @@ public class Player extends Entity{
   }
   public void pickUpObject(int i) {
     if(i != -1) {
-      String objName = gp.obj[i].name;
-      switch(objName) {
-        case "Key":
-          gp.obj[i] = null;
-          gp.playSoundEffect(1);
-          gp.uiManager.showMessage("You picked a key");
-          hasKey++;
-        break;
-        case "Door":
-          if(hasKey > 0) {
-            gp.obj[i] = null;
-            gp.playSoundEffect(2);
-            gp.uiManager.showMessage("You Used a key");
-            hasKey--;
-          }
-          else {
-            gp.uiManager.showMessage("You need a key");
-          }
-          break;
-        case "Boots":
-          gp.obj[i] = null;
-          gp.playSoundEffect(3);
-          gp.uiManager.showMessage("Speedup!!!");
-          speed += 2;
-        break;
-        case "Chest":
-          gp.obj[i] = null;
-          gp.playSoundEffect(1);
-          gp.uiManager.gameFinished = true;
-        break;
-      }
+      
       
     }
   }
