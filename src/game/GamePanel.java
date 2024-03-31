@@ -3,6 +3,7 @@ package game;
 import javax.swing.JPanel;
 
 import Object.SuperObject;
+import entity.Entity;
 import entity.Player;
 import tiles.TileManager;
 
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
   public Player player = new Player(this , keyH);
   TileManager tManager = new TileManager(this);
   public SuperObject obj[] = new SuperObject[10];
+  public Entity npc[] = new Entity[10];
 
   //GAME STATE
   public int gameState;
@@ -64,7 +66,8 @@ public class GamePanel extends JPanel implements Runnable{
 
   public void setupGame() {
     assetSetter.setObject();
-    playMusic(0);
+    assetSetter.setNPC();
+    //playMusic(0);
     gameState = playState;
   }
 
@@ -97,6 +100,14 @@ public class GamePanel extends JPanel implements Runnable{
   public void update(){
     if(gameState == playState) {
       player.update();
+
+      //npc update
+      for(int i=0; i<npc.length; i++) {
+        if(npc[i] != null) {
+          npc[i].update();
+        }
+      }
+      
     }
     else if(gameState == pauseState) {
       //do nothing for now
@@ -119,6 +130,12 @@ public class GamePanel extends JPanel implements Runnable{
       }
     }
 
+    //NPCS
+    for(int i=0; i<npc.length; i++) {
+      if(npc[i] != null) {
+        npc[i].draw(g2);
+      }
+    }
     //PLAYER
     player.draw(g2);
 
