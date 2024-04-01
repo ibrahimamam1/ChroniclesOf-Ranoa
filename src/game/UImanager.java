@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -15,7 +16,7 @@ public class UImanager {
   String message = "";
   boolean messageOn = false;
   int messageCounter = 0;
-  public boolean gameFinished = false;
+  public String currentDialogue = "";
 
   public UImanager(GamePanel gp) {
     this.gp =  gp;
@@ -38,6 +39,41 @@ public class UImanager {
     if(gp.gameState == gp.pauseState) {
       drawPauseScreen();
     }
+    if(gp.gameState == gp.dialogueState) {
+      drawDialogueWindow();
+    }
+
+  }
+  
+  public void drawDialogueWindow() {
+    //WINDOW
+
+    int x = gp.tileSize/2;
+    int y = gp.tileSize/2;
+    int width = gp.screenWidth - (gp.tileSize*4);
+    int height = gp.tileSize * 5;
+
+    drawSubWindow(x , y ,width , height);
+
+    x += gp.tileSize;
+    y += gp.tileSize;
+
+    for(String line : currentDialogue.split("\n")) {
+      g2.drawString(line, x, y);
+      y += 40;
+    }
+   
+  }
+
+  public void drawSubWindow(int x , int y , int w , int h) {
+    Color c = new Color(0 ,0 , 0 , 210);
+    g2.setColor(c);
+    g2.fillRoundRect(x, y, w, h, 35, 35);
+
+    c = new Color(255 , 255 , 255);
+    g2.setColor(c);
+    g2.setStroke(new BasicStroke(5));
+    g2.drawRoundRect(x+5, y+5, w, h-10, 25, 25);
   }
 
   public void drawPauseScreen() {

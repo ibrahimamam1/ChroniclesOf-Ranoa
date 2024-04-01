@@ -11,6 +11,7 @@ public class NPC_OLD_MAN extends Entity{
     direction = "down";
     speed = 1;
     getImage();
+    setDialogue();
   }
 
   public void getImage(){
@@ -46,5 +47,17 @@ public class NPC_OLD_MAN extends Entity{
       actionLockCounter = 0;
     }
     
+  }
+
+  public void setDialogue() {
+    dialogues[0] = "Hello Lad";
+    dialogues[1] = "You don't seem to be from here\n What brings you to Mysticya?\n";
+    dialogues[2] = "Oh so you are an Adventurer\n you are here to kill the dark lords/n";
+    dialogues[3] = "I used to be a strong mage\n Alas at my age i cant help you/n";
+    dialogues[4] = "Well good luck\n go meet the chief she might help";
+  }
+
+  public void speak() {
+    super.speak();
   }
 }

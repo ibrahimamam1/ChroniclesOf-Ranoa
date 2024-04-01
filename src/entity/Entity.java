@@ -17,6 +17,8 @@ public class Entity {
 
   public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
   public String direction;
+  public String dialogues[] = new String[20];
+  public int dialogueIndex = 0;
 
   public Rectangle solidArea = new Rectangle(0 , 0 , 48 , 48);
   public int solidAreaDefaultX;
@@ -81,6 +83,27 @@ public class Entity {
     }
   }
   
+  public void speak() {
+    if(dialogueIndex > 4)
+    dialogueIndex = 0;
+    gp.uiManager.currentDialogue = dialogues[dialogueIndex++];
+
+    switch (direction) {
+      case "up":
+          direction = "down";
+        break;
+      case "down":
+          direction = "up";
+        break;
+      case "left":
+          direction = "right";
+        break;
+      case "right":
+          direction = "left";
+        break;
+    
+    }
+  }
   public void draw(Graphics2D g2) {
      //position of tile on screen
      int screenX = worldX - gp.player.worldX + gp.player.screenX;

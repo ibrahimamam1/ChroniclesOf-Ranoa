@@ -95,8 +95,12 @@ public class Player extends Entity{
 
   public void interactNpc(int i) {
     if(i != -1) {
-      System.out.println("Hitting old man");
+      if(keyH.enterPressed == true) {
+        gp.gameState = gp.dialogueState;
+        gp.npc[i].speak();
+      }
     }
+    keyH.enterPressed = false;
   }
 
   public void getPlayerImage(){

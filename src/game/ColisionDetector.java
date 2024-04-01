@@ -143,24 +143,28 @@ public class ColisionDetector {
             entity.solidArea.y -= entity.speed;
             if(entity.solidArea.intersects(target[i].solidArea)) {
               entity.colisionOn = true;
+              index = i;
             }
             break;
             case "down" :
             entity.solidArea.y += entity.speed;
             if(entity.solidArea.intersects(target[i].solidArea)) {
               entity.colisionOn = true;
+              index = i;
             }
             break;
           case "left" :
             entity.solidArea.x -= entity.speed;
             if(entity.solidArea.intersects(target[i].solidArea)) {
               entity.colisionOn = true;
+              index = i;
             }
             break;
           case "right" :
             entity.solidArea.x += entity.speed;
             if(entity.solidArea.intersects(target[i].solidArea)) {
               entity.colisionOn = true;
+              index = i;
             }
             break;
         }
