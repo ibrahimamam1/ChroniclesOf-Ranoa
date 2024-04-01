@@ -14,14 +14,12 @@ import game.UtilityTool;
 
 public class Player extends Entity{
   
-  GamePanel gp;
   KeyHandler keyH;
   public int screenX;
   public int screenY; //Players positio on screen
-  public int hasKey = 0;
 
   public Player(GamePanel gp , KeyHandler keyH){
-    this.gp = gp;
+    super(gp);
     this.keyH = keyH;
 
     worldX = 1100;
@@ -57,6 +55,8 @@ public class Player extends Entity{
       gp.colisionDetector.checkTile(this);
       int objIndex = gp.colisionDetector.checkObject(this, true);
       pickUpObject(objIndex);
+      int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
+      interactNpc(npcIndex);
 
       if(this.colisionOn ==  false) {
         switch(direction) {
@@ -88,68 +88,34 @@ public class Player extends Entity{
   }
   public void pickUpObject(int i) {
     if(i != -1) {
-      String objName = gp.obj[i].name;
-      switch(objName) {
-        case "Key":
-          gp.obj[i] = null;
-          gp.playSoundEffect(1);
-          gp.uiManager.showMessage("You picked a key");
-          hasKey++;
-        break;
-        case "Door":
-          if(hasKey > 0) {
-            gp.obj[i] = null;
-            gp.playSoundEffect(2);
-            gp.uiManager.showMessage("You Used a key");
-            hasKey--;
-          }
-          else {
-            gp.uiManager.showMessage("You need a key");
-          }
-          break;
-        case "Boots":
-          gp.obj[i] = null;
-          gp.playSoundEffect(3);
-          gp.uiManager.showMessage("Speedup!!!");
-          speed += 2;
-        break;
-        case "Chest":
-          gp.obj[i] = null;
-          gp.playSoundEffect(1);
-          gp.uiManager.gameFinished = true;
-        break;
-      }
+      
       
     }
   }
 
+  public void interactNpc(int i) {
+    if(i != -1) {
+      if(keyH.enterPressed == true) {
+        gp.gameState = gp.dialogueState;
+        gp.npc[i].speak();
+      }
+    }
+    keyH.enterPressed = false;
+  }
+
   public void getPlayerImage(){
    
-    idle = setup("boy_idle");
-    up1 = setup("boy_up_1");
-    up2 = setup("boy_up_2");
-    down1 = setup("boy_down_1");
-    down2 = setup("boy_down_2");
-    left1 = setup("boy_left_1");
-    left2 = setup("boy_left_2");
-    right1 = setup("boy_right_1");
-    right2 = setup("boy_right_2");
+    idle = setup("/assets/boy_idle");
+    up1 = setup("/assets/boy_up_1");
+    up2 = setup("/assets/boy_up_2");
+    down1 = setup("/assets/boy_down_1");
+    down2 = setup("/assets/boy_down_2");
+    left1 = setup("/assets/boy_left_1");
+    left2 = setup("/assets/boy_left_2");
+    right1 = setup("/assets/boy_right_1");
+    right2 = setup("/assets/boy_right_2");
   }
 
-  public BufferedImage setup(String imageName){
-    UtilityTool uTool = new UtilityTool();
-    BufferedImage scaledImage = null;
-
-    try {
-      scaledImage = ImageIO.read(getClass().getResourceAsStream("/assets/" + imageName + ".png"));
-      //scaledImage = uTool.scaleImage(scaledImage, gp.tileSize*2, gp.tileSize*2);
-    }
-    catch(IOException e) {
-      e.printStackTrace();
-    }
-
-    return scaledImage;
-  }
 
   public void draw(Graphics2D g2)
   {
