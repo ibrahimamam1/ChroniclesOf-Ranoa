@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import Object.OBJ_Hearth;
 import Object.OBJ_Key;
+import Object.SuperObject;
 
 public class UImanager {
   GamePanel gp;
@@ -20,10 +22,18 @@ public class UImanager {
 
   public int menuOption = 0;
 
+  public BufferedImage hearth_blank , hearth_half , hearth_full; 
+
   public UImanager(GamePanel gp) {
     this.gp =  gp;
     arial30 = new Font("Arial" , Font.PLAIN , 30);
     arial80B = new Font("Arial" , Font.BOLD , 80);
+
+    //HUD Objects
+    SuperObject hearth = new OBJ_Hearth(gp);
+    hearth_blank = hearth.image;
+    hearth_half = hearth.image2;
+    hearth_full = hearth.image3;
   }
 
   public void showMessage(String text) {
@@ -40,13 +50,15 @@ public class UImanager {
     }
 
     if(gp.gameState == gp.playState) {
-      //do something later
+      drawPlayerLife(g2);
     }
     if(gp.gameState == gp.pauseState) {
       drawPauseScreen();
+      drawPlayerLife(g2);
     }
     if(gp.gameState == gp.dialogueState) {
       drawDialogueWindow();
+      drawPlayerLife(g2);
     }
 
   }
@@ -99,6 +111,37 @@ public class UImanager {
     }
     g2.drawString(text, x, y);
   }
+
+  public void drawPlayerLife(Graphics2D g2) {
+
+    //DRAW MAXLIFE
+    int x = gp.tileSize/2;
+    int y = gp.tileSize/2;
+    int i=0;
+
+    while(i<gp.player.maxlife/2) {
+      g2.drawImage(hearth_blank, x, y , null);
+      i++;
+      x += gp.tileSize;
+    }
+
+    x = gp.tileSize/2;
+    y = gp.tileSize/2;
+    i = 0;
+
+    //DRAW CURRENT LIFE
+    while(i < gp.player.life) {
+      g2.drawImage(hearth_half, x , y , null);
+      i++;
+      if( i < gp.player.life) {
+        g2.drawImage(hearth_full, x , y , null);
+      }
+      i++;
+      x += gp.tileSize;
+    }
+
+  }
+
   public void drawDialogueWindow() {
     //WINDOW
 

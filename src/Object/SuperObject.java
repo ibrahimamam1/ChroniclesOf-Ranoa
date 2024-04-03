@@ -10,7 +10,7 @@ import game.UtilityTool;
 public class SuperObject {
   UtilityTool uTool = new UtilityTool();
 
-  public BufferedImage image;
+  public BufferedImage image , image2 , image3;
   public String name;
   public boolean walkable = false;
 

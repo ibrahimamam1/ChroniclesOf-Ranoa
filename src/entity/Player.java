@@ -22,6 +22,9 @@ public class Player extends Entity{
     super(gp);
     this.keyH = keyH;
 
+    maxlife = 6;
+    life = maxlife;
+
     worldX = 1100;
     worldY = 1000;
     speed = 4;
