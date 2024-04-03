@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable{
 
   //GAME STATE
   public int gameState;
+  public final int titleState = 0;
   public final int playState  =1;
   public final int pauseState = 2;
   public final int dialogueState = 3;
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
     this.setPreferredSize(new Dimension(screenWidth , screenHeight)); 
     this.setDoubleBuffered(true); // every paint will be made on an offscreen buffer before being rendered on actual window
     this.addKeyListener(keyH);
+    this.setBackground(Color.black);
     this.setFocusable(true);
   }
 
@@ -69,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
     assetSetter.setObject();
     assetSetter.setNPC();
     //playMusic(0);
-    gameState = playState;
+    gameState = titleState;
   }
 
   public void startGameThread(){
@@ -121,28 +123,34 @@ public class GamePanel extends JPanel implements Runnable{
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
-    //TILE
-    tManager.draw(g2);
-
-    //OBJECTS
-    for(int i=0; i<obj.length; i++) {
-      if(obj[i] != null) {
-        obj[i].draw(g2 , this);
-      }
+    if(gameState == titleState) {
+        uiManager.draw(g2);
     }
+    else {
+        //TILE
+      tManager.draw(g2);
 
-    //NPCS
-    for(int i=0; i<npc.length; i++) {
-      if(npc[i] != null) {
-        npc[i].draw(g2);
+      //OBJECTS
+      for(int i=0; i<obj.length; i++) {
+        if(obj[i] != null) {
+          obj[i].draw(g2 , this);
+        }
       }
-    }
-    //PLAYER
-    player.draw(g2);
 
-    //UI Elemets
-    uiManager.draw(g2);
-    g2.dispose();
+      //NPCS
+      for(int i=0; i<npc.length; i++) {
+        if(npc[i] != null) {
+          npc[i].draw(g2);
+        }
+      }
+      //PLAYER
+      player.draw(g2);
+
+      //UI Elemets
+      uiManager.draw(g2);
+      }
+      
+      g2.dispose();
   }
 
   public void playMusic(int i) {

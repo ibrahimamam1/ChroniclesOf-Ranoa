@@ -18,6 +18,8 @@ public class UImanager {
   int messageCounter = 0;
   public String currentDialogue = "";
 
+  public int menuOption = 0;
+
   public UImanager(GamePanel gp) {
     this.gp =  gp;
     arial30 = new Font("Arial" , Font.PLAIN , 30);
@@ -33,6 +35,10 @@ public class UImanager {
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
+    if(gp.gameState == gp.titleState) {
+      drawTitleScreen(g2);
+    }
+
     if(gp.gameState == gp.playState) {
       //do something later
     }
@@ -45,6 +51,54 @@ public class UImanager {
 
   }
   
+  public void drawTitleScreen(Graphics2D g2) {
+    //title Name
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 60F));
+    String text = "Chronicles Of Ranoa";
+    int x = getXForCenteredText(text);
+    int y = gp.tileSize*3;
+
+    //draw text shadow
+    g2.setColor(Color.gray);
+    g2.drawString(text , x+5 , y+5);
+
+    //draw main text 
+    g2.setColor(Color.white);
+    g2.drawString(text , x , y);
+
+
+    //MENU
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 48F));
+    text = "NEW GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize*4;
+
+    if(menuOption == 0) {
+      g2.drawString(">", x-gp.tileSize, y);
+    }
+
+    g2.drawString(text, x, y);
+
+    text = "LOAD GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize;
+
+    if(menuOption == 1) {
+      g2.drawString(">", x-gp.tileSize, y);
+    } 
+
+    g2.drawString(text, x, y);
+
+
+    text = "EXIT GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize;
+
+    if(menuOption == 2) {
+      g2.drawString(">", x-gp.tileSize, y);
+    }
+    g2.drawString(text, x, y);
+  }
   public void drawDialogueWindow() {
     //WINDOW
 
