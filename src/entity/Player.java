@@ -55,11 +55,16 @@ public class Player extends Entity{
         direction = "right";
       }
       
+      //CHECK COLLISIONS
       gp.colisionDetector.checkTile(this);
       int objIndex = gp.colisionDetector.checkObject(this, true);
       pickUpObject(objIndex);
       int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
       interactNpc(npcIndex);
+      
+      //CHECK EVENT
+      gp.eventhandler.checKEvent();
+      keyH.enterPressed = false;
 
       if(this.colisionOn ==  false) {
         switch(direction) {
@@ -103,7 +108,6 @@ public class Player extends Entity{
         gp.npc[i].speak();
       }
     }
-    keyH.enterPressed = false;
   }
 
   public void getPlayerImage(){

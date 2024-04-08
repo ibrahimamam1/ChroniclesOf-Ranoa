@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.beans.EventHandler;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -42,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
   public ColisionDetector colisionDetector = new ColisionDetector(this);
   public AssetSetter assetSetter = new AssetSetter(this);
   public UImanager uiManager = new UImanager(this);
+  public Eventhandler eventhandler = new Eventhandler(this);
 
   
   //--Game Elements 
@@ -85,6 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
     double delta = 0;
     long lastTime = System.nanoTime();
     long currentTime;
+    
     while(gameThread != null)
     {
       currentTime = System.nanoTime();
@@ -145,11 +148,10 @@ public class GamePanel extends JPanel implements Runnable{
       }
       //PLAYER
       player.draw(g2);
-
       //UI Elemets
       uiManager.draw(g2);
       }
-      
+
       g2.dispose();
   }
 
