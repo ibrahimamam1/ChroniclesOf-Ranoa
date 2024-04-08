@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import Object.OBJ_Hearth;
 import Object.OBJ_Key;
+import entity.Entity;
 
 public class UImanager {
   GamePanel gp;
@@ -18,10 +20,20 @@ public class UImanager {
   int messageCounter = 0;
   public String currentDialogue = "";
 
+  public int menuOption = 0;
+
+  public BufferedImage hearth_blank , hearth_half , hearth_full; 
+
   public UImanager(GamePanel gp) {
     this.gp =  gp;
     arial30 = new Font("Arial" , Font.PLAIN , 30);
     arial80B = new Font("Arial" , Font.BOLD , 80);
+
+    //HUD Objects
+    Entity hearth = new OBJ_Hearth(gp);
+    hearth_blank = hearth.image;
+    hearth_half = hearth.image2;
+    hearth_full = hearth.image3;
   }
 
   public void showMessage(String text) {
@@ -33,18 +45,103 @@ public class UImanager {
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
+    if(gp.gameState == gp.titleState) {
+      drawTitleScreen(g2);
+    }
+
     if(gp.gameState == gp.playState) {
-      //do something later
+      drawPlayerLife(g2);
     }
     if(gp.gameState == gp.pauseState) {
       drawPauseScreen();
+      drawPlayerLife(g2);
     }
     if(gp.gameState == gp.dialogueState) {
       drawDialogueWindow();
+      drawPlayerLife(g2);
     }
 
   }
   
+  public void drawTitleScreen(Graphics2D g2) {
+    //title Name
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 60F));
+    String text = "Chronicles Of Ranoa";
+    int x = getXForCenteredText(text);
+    int y = gp.tileSize*3;
+
+    //draw text shadow
+    g2.setColor(Color.gray);
+    g2.drawString(text , x+5 , y+5);
+
+    //draw main text 
+    g2.setColor(Color.white);
+    g2.drawString(text , x , y);
+
+
+    //MENU
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 48F));
+    text = "NEW GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize*4;
+
+    if(menuOption == 0) {
+      g2.drawString(">", x-gp.tileSize, y);
+    }
+
+    g2.drawString(text, x, y);
+
+    text = "LOAD GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize;
+
+    if(menuOption == 1) {
+      g2.drawString(">", x-gp.tileSize, y);
+    } 
+
+    g2.drawString(text, x, y);
+
+
+    text = "EXIT GAME";
+    x = getXForCenteredText(text);
+    y += gp.tileSize;
+
+    if(menuOption == 2) {
+      g2.drawString(">", x-gp.tileSize, y);
+    }
+    g2.drawString(text, x, y);
+  }
+
+  public void drawPlayerLife(Graphics2D g2) {
+
+    //DRAW MAXLIFE
+    int x = gp.tileSize/2;
+    int y = gp.tileSize/2;
+    int i=0;
+
+    while(i<gp.player.maxlife/2) {
+      g2.drawImage(hearth_blank, x, y , null);
+      i++;
+      x += gp.tileSize;
+    }
+
+    x = gp.tileSize/2;
+    y = gp.tileSize/2;
+    i = 0;
+
+    //DRAW CURRENT LIFE
+    while(i < gp.player.life) {
+      g2.drawImage(hearth_half, x , y , null);
+      i++;
+      if( i < gp.player.life) {
+        g2.drawImage(hearth_full, x , y , null);
+      }
+      i++;
+      x += gp.tileSize;
+    }
+
+  }
+
   public void drawDialogueWindow() {
     //WINDOW
 

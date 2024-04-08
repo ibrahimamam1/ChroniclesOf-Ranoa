@@ -2,7 +2,6 @@ package game;
 
 import javax.swing.JPanel;
 
-import Object.SuperObject;
 import entity.Entity;
 import entity.Player;
 import tiles.TileManager;
@@ -11,6 +10,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.beans.EventHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -42,16 +45,19 @@ public class GamePanel extends JPanel implements Runnable{
   public ColisionDetector colisionDetector = new ColisionDetector(this);
   public AssetSetter assetSetter = new AssetSetter(this);
   public UImanager uiManager = new UImanager(this);
+  public Eventhandler eventhandler = new Eventhandler(this);
 
   
   //--Game Elements 
   public Player player = new Player(this , keyH);
   TileManager tManager = new TileManager(this);
-  public SuperObject obj[] = new SuperObject[10];
+  public Entity obj[] = new Entity[10];
   public Entity npc[] = new Entity[10];
+  public ArrayList<Entity> entityList = new ArrayList<>();
 
   //GAME STATE
   public int gameState;
+  public final int titleState = 0;
   public final int playState  =1;
   public final int pauseState = 2;
   public final int dialogueState = 3;
@@ -62,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
     this.setPreferredSize(new Dimension(screenWidth , screenHeight)); 
     this.setDoubleBuffered(true); // every paint will be made on an offscreen buffer before being rendered on actual window
     this.addKeyListener(keyH);
+    this.setBackground(Color.black);
     this.setFocusable(true);
   }
 
@@ -69,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable{
     assetSetter.setObject();
     assetSetter.setNPC();
     //playMusic(0);
-    gameState = playState;
+    gameState = titleState;
   }
 
   public void startGameThread(){
@@ -83,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
     double delta = 0;
     long lastTime = System.nanoTime();
     long currentTime;
+    
     while(gameThread != null)
     {
       currentTime = System.nanoTime();
@@ -121,28 +129,51 @@ public class GamePanel extends JPanel implements Runnable{
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
-    //TILE
-    tManager.draw(g2);
-
-    //OBJECTS
-    for(int i=0; i<obj.length; i++) {
-      if(obj[i] != null) {
-        obj[i].draw(g2 , this);
-      }
+    if(gameState == titleState) {
+        uiManager.draw(g2);
     }
+    else {
+        //TILE
+      tManager.draw(g2);
 
-    //NPCS
-    for(int i=0; i<npc.length; i++) {
-      if(npc[i] != null) {
-        npc[i].draw(g2);
+      //Add Entities
+      entityList.add(player);
+      for(int i=0;i<npc.length; i++) {
+        if(npc[i] != null)  {
+          entityList.add(npc[i]);
+        }
       }
-    }
-    //PLAYER
-    player.draw(g2);
 
-    //UI Elemets
-    uiManager.draw(g2);
-    g2.dispose();
+      for(int i=0; i<obj.length; i++) {
+        if(obj[i] != null) {
+          entityList.add(obj[i]);
+        }
+      }
+
+      //sort entitylist based onyposition
+      Collections.sort(entityList , new Comparator<Entity>() {
+
+        @Override
+        public int compare(Entity e1, Entity e2) {
+          int result= Integer.compare(e1.worldY, e2.worldY);
+          return result;
+        }
+        
+      });
+
+      //draw entities
+      for(int i=0;i<entityList.size();i++){
+        entityList.get(i).draw(g2);
+      }
+      //empty entity list
+      for(int i=0;i<entityList.size();i++){
+        entityList.remove(i);
+      }
+      //UI Elemets
+      uiManager.draw(g2);
+      }
+
+      g2.dispose();
   }
 
   public void playMusic(int i) {
