@@ -19,7 +19,7 @@ public class Entity {
   public int life;
 
   public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
-  public String direction;
+  public String direction = "idle";
   public String dialogues[] = new String[20];
   public int dialogueIndex = 0;
 
@@ -28,12 +28,16 @@ public class Entity {
   public int solidAreaDefaultY;
   public boolean colisionOn;
 
+  public BufferedImage image , image2 , image3;
+  public String name;
+  public boolean walkable = false;
+
   public int spriteCounter = 0;
   public int spriteNum = 1; 
 
   public int actionLockCounter = 0;
 
-  Entity(GamePanel gp) {
+  public Entity(GamePanel gp) {
     this.gp = gp;
   }
 

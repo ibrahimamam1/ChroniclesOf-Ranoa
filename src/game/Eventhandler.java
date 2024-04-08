@@ -58,9 +58,6 @@ public class Eventhandler {
     eventRect[row][col].x += col * gp.tileSize;
     eventRect[row][col].y += row * gp.tileSize;
 
-    System.out.println(eventRect[row][col].x - gp.player.worldX);
-    System.out.println(eventRect[row][col].y - gp.player.worldY);
-
     if(gp.player.solidArea.intersects(eventRect[row][col])) {
       if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
         hit = true;

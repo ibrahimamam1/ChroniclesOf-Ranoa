@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import Object.OBJ_Hearth;
 import Object.OBJ_Key;
-import Object.SuperObject;
+import entity.Entity;
 
 public class UImanager {
   GamePanel gp;
@@ -30,7 +30,7 @@ public class UImanager {
     arial80B = new Font("Arial" , Font.BOLD , 80);
 
     //HUD Objects
-    SuperObject hearth = new OBJ_Hearth(gp);
+    Entity hearth = new OBJ_Hearth(gp);
     hearth_blank = hearth.image;
     hearth_half = hearth.image2;
     hearth_full = hearth.image3;
