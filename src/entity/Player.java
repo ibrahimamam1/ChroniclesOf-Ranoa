@@ -90,6 +90,7 @@ public class Player extends Entity{
       }
       
       //CHECK Tile COLLISIONS
+
       gp.colisionDetector.checkTile(this);
       int objIndex = gp.colisionDetector.checkObject(this, true);
       pickUpObject(objIndex);
@@ -97,6 +98,7 @@ public class Player extends Entity{
       //CHECK NPC COLLISIONS
       int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
       interactNpc(npcIndex);
+
 
       //CHECK MONSTER COLLISIONS
       int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
@@ -139,6 +141,7 @@ public class Player extends Entity{
         invincibleCounter = 0;
       }
     }
+
   }
 
   public void attacking() {
@@ -191,6 +194,7 @@ public class Player extends Entity{
       
       
     }
+
   }
   public void pickUpObject(int i) {
     if(i != -1) {
@@ -217,6 +221,20 @@ public class Player extends Entity{
       life -= 1;
       invincible = true;
     }
+
+  }
+
+  public void getPlayerImage(){
+   
+    idle = setup("/assets/boy_idle");
+    up1 = setup("/assets/boy_up_1");
+    up2 = setup("/assets/boy_up_2");
+    down1 = setup("/assets/boy_down_1");
+    down2 = setup("/assets/boy_down_2");
+    left1 = setup("/assets/boy_left_1");
+    left2 = setup("/assets/boy_left_2");
+    right1 = setup("/assets/boy_right_1");
+    right2 = setup("/assets/boy_right_2");
   }
 
 
@@ -285,7 +303,7 @@ public class Player extends Entity{
         
         break;
     }
-
+    
     if(invincible == true) {
       g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.3f));
     }

@@ -145,9 +145,14 @@ public class ColisionDetector {
           case "right" :
             entity.solidArea.x += entity.speed; break;
         }
-        if(entity.solidArea.intersects(target[i].solidArea) && target[i] != entity) {
-          entity.colisionOn = true;
-          index = i;
+
+        if(entity.solidArea.intersects(target[i].solidArea)){
+
+          if(target[i] != entity) {
+            entity.colisionOn = true;
+            index = i;
+          }
+          
         }
 
         //reset entity position values

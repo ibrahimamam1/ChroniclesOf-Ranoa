@@ -8,6 +8,7 @@ import entity.NPC_OLD_MAN ;
 import monster.Mon_Green_Slime;
 
 
+
 public class AssetSetter {
   GamePanel gp;
 
@@ -25,6 +26,7 @@ public class AssetSetter {
   }
 
   public void setMonster() {
+
     gp.monster[0] = new Mon_Green_Slime(gp);
     gp.monster[0].worldX = gp.tileSize * 22;
     gp.monster[0].worldY = gp.tileSize * 35;
