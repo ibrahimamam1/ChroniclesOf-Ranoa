@@ -11,10 +11,15 @@ public class SoundManager {
   URL soundUrl[] = new URL[30];
 
   public SoundManager() {
+
     soundUrl[0] =  getClass().getResource("/assets/Sound/BlueBoyAdventure.wav");
     soundUrl[1] =  getClass().getResource("/assets/Sound/coin.wav");
     soundUrl[2] =  getClass().getResource("/assets/Sound/unlock.wav");
     soundUrl[3] =  getClass().getResource("/assets/Sound/powerup.wav");
+    soundUrl[4] =  getClass().getResource("/assets/Sound/receivedamage.wav");
+    soundUrl[5] =  getClass().getResource("/assets/Sound/hitmonster.wav");
+    soundUrl[6] =  getClass().getResource("/assets/Sound/cuttree.wav");
+
   }
 
   public void setFile(int i) {

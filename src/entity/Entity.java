@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,11 @@ public class Entity {
   public int life;
   public boolean invincible = false;
   public int invincibleCounter = 0;
+  public boolean alive = true;
+  public boolean dying = false;
+  public int dyingCounter = 0;
+  public boolean hpBarOn = false;
+  public int hpBarCounter = 0;
 
   public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
   public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
@@ -68,6 +74,7 @@ public class Entity {
   }
 
   public void setAction() {}
+  public void damageReaction() {}
 
   public void update() {
     setAction();
@@ -176,11 +183,49 @@ public class Entity {
                 image = right2;
               break;
           }
+
+          //monsetr healthbar
+          if(type == entityType.MONSTER && hpBarOn) {
+            double oneHealthUnit = (double)gp.tileSize/maxlife;
+            double hpBarValue = oneHealthUnit * life;
+
+            g2.setColor(new Color(35 , 35 , 35));
+            g2.fillRect(screenX-1, screenY-16, gp.tileSize+2 , 10);
+
+            g2.setColor(new Color(255 , 0 , 30));
+            g2.fillRect(screenX, screenY-15,(int)hpBarValue, 12);
+
+            hpBarCounter++;
+            if(hpBarCounter >= 600) {
+              hpBarOn = false;
+              hpBarCounter = 0;
+            }
+          }
+          
           if(invincible == true) {
+            hpBarOn = true;
+            hpBarCounter = 0;
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));
+          }
+          if(dying) {
+            dyingAnimation(g2);
           }
          g2.drawImage(image, screenX, screenY , gp.tileSize , gp.tileSize, null);
          g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
        }
+  }
+
+  public void dyingAnimation(Graphics2D g2) {
+    dyingCounter++;
+    if(dyingCounter <= 5 || (dyingCounter>10 && dyingCounter <=15) || (dyingCounter > 20 && dyingCounter <= 25)) {
+      g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));
+    }
+    else if((dyingCounter > 5 && dyingCounter <= 10) || (dyingCounter>15 && dyingCounter <=20) || (dyingCounter > 25 && dyingCounter <= 30)) {
+      g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
+    }
+
+    if(dyingCounter > 30) {
+      dying = false; alive = false;
+    }
   }
 }
