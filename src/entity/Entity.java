@@ -17,6 +17,8 @@ public class Entity {
 
   public int maxlife;
   public int life;
+  boolean invincible = false;
+  int invincibleCounter = 0;
 
   public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
   public String direction = "idle";
@@ -31,6 +33,12 @@ public class Entity {
   public BufferedImage image , image2 , image3;
   public String name;
   public boolean walkable = false;
+  public enum entityType {
+    PLAYER,
+    NPC,
+    Monster
+  };
+  public entityType type;
 
   public int spriteCounter = 0;
   public int spriteNum = 1; 
@@ -62,7 +70,16 @@ public class Entity {
     colisionOn = false;
     gp.colisionDetector.checkTile(this);
     gp.colisionDetector.checkObject(this, false);
-    gp.colisionDetector.checkPlayer(this);
+    gp.colisionDetector.checkEntity(this, gp.npc);
+    gp.colisionDetector.checkEntity(this, gp.monster);
+    boolean contact = gp.colisionDetector.checkPlayer(this);
+
+    if(contact == true && type == entityType.Monster) {
+      if(gp.player.invincible == false) {
+        gp.player.life -= 1;
+        gp.player.invincible = true;
+      }
+    }
 
     if(this.colisionOn ==  false) {
       switch(direction) {

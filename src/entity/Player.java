@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -55,12 +56,18 @@ public class Player extends Entity{
         direction = "right";
       }
       
-      //CHECK COLLISIONS
+      //CHECK Tile COLLISIONS
       gp.colisionDetector.checkTile(this);
       int objIndex = gp.colisionDetector.checkObject(this, true);
       pickUpObject(objIndex);
+
+      //CHECK NPC COLLISIONS
       int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
       interactNpc(npcIndex);
+
+      //CHECK MONSTER COLLISIONS
+      int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
+      contactMonster(monsterIndex);
       
       //CHECK EVENT
       gp.eventhandler.checKEvent();
@@ -93,6 +100,13 @@ public class Player extends Entity{
     }
     else direction = "idle";
     
+    if(invincible == true) {
+      invincibleCounter++;
+      if(invincibleCounter == 60) {
+        invincible = false;
+        invincibleCounter = 0;
+      }
+    }
   }
   public void pickUpObject(int i) {
     if(i != -1) {
@@ -107,6 +121,13 @@ public class Player extends Entity{
         gp.gameState = gp.dialogueState;
         gp.npc[i].speak();
       }
+    }
+  }
+
+  public void contactMonster(int i) {
+    if(i != -1 && invincible == false) {
+      life -= 1;
+      invincible = true;
     }
   }
 
@@ -156,6 +177,10 @@ public class Player extends Entity{
           image = right2;
         break;
     }
+    if(invincible == true) {
+      g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.3f));
+    }
     g2.drawImage(image, screenX, screenY , null);
+    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
   }
 }
