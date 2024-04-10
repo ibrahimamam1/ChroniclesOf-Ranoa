@@ -224,21 +224,6 @@ public class Player extends Entity{
 
   }
 
-  public void getPlayerImage(){
-   
-    idle = setup("/assets/boy_idle");
-    up1 = setup("/assets/boy_up_1");
-    up2 = setup("/assets/boy_up_2");
-    down1 = setup("/assets/boy_down_1");
-    down2 = setup("/assets/boy_down_2");
-    left1 = setup("/assets/boy_left_1");
-    left2 = setup("/assets/boy_left_2");
-    right1 = setup("/assets/boy_right_1");
-    right2 = setup("/assets/boy_right_2");
-  }
-
-
-
   public void draw(Graphics2D g2)
   {
     BufferedImage image = null;
