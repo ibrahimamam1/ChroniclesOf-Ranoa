@@ -8,6 +8,6 @@ public class OBJ_Key extends Entity{
   public OBJ_Key(GamePanel gp) {
     super(gp);
     name = "Key";
-    image = setup("/assets/Object/key.png");
+    image = setup("/assets/Object/key.png" , gp.tileSize , gp.tileSize);
   }
 }

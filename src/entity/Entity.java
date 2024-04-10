@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -11,21 +12,23 @@ import game.GamePanel;
 import game.UtilityTool;
 
 public class Entity {
-  GamePanel gp;
+  public GamePanel gp;
   public int worldX , worldY; //Position of the entity in the game map
   public int speed;
 
   public int maxlife;
   public int life;
-  boolean invincible = false;
-  int invincibleCounter = 0;
+  public boolean invincible = false;
+  public int invincibleCounter = 0;
 
   public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
+  public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
   public String direction = "idle";
   public String dialogues[] = new String[20];
   public int dialogueIndex = 0;
 
   public Rectangle solidArea = new Rectangle(0 , 0 , 48 , 48);
+  public Rectangle attackArea = new Rectangle(0 , 0 , 0 , 0);
   public int solidAreaDefaultX;
   public int solidAreaDefaultY;
   public boolean colisionOn;
@@ -36,7 +39,7 @@ public class Entity {
   public enum entityType {
     PLAYER,
     NPC,
-    Monster
+    MONSTER
   };
   public entityType type;
 
@@ -49,7 +52,7 @@ public class Entity {
     this.gp = gp;
   }
 
-  public BufferedImage setup(String imagePath){
+  public BufferedImage setup(String imagePath , int width , int height){
       UtilityTool uTool = new UtilityTool();
       BufferedImage scaledImage = null;
 
@@ -65,16 +68,17 @@ public class Entity {
   }
 
   public void setAction() {}
+
   public void update() {
     setAction();
     colisionOn = false;
     gp.colisionDetector.checkTile(this);
     gp.colisionDetector.checkObject(this, false);
-    gp.colisionDetector.checkEntity(this, gp.npc);
-    gp.colisionDetector.checkEntity(this, gp.monster);
+    gp.colisionDetector.checkEntity(this , gp.npc);
+    gp.colisionDetector.checkEntity(this , gp.monster);
     boolean contact = gp.colisionDetector.checkPlayer(this);
 
-    if(contact == true && type == entityType.Monster) {
+    if(contact && type == entityType.MONSTER) {
       if(gp.player.invincible == false) {
         gp.player.life -= 1;
         gp.player.invincible = true;
@@ -104,6 +108,14 @@ public class Entity {
       else if(spriteNum == 2) spriteNum = 1;
 
       spriteCounter = 0;
+    }
+
+    if(invincible == true) {
+      invincibleCounter++;
+      if(invincibleCounter > 40) {
+        invincible = false;
+        invincibleCounter = 0;
+      }
     }
   }
   
@@ -164,7 +176,11 @@ public class Entity {
                 image = right2;
               break;
           }
+          if(invincible == true) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));
+          }
          g2.drawImage(image, screenX, screenY , gp.tileSize , gp.tileSize, null);
+         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
        }
   }
 }

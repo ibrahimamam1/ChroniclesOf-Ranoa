@@ -8,6 +8,6 @@ public class OBJ_Chest extends Entity{
   public OBJ_Chest(GamePanel gp) {
     super(gp);
     name = "Chest";
-    image  = setup("/assets/Object/chest");
+    image  = setup("/assets/Object/chest" , gp.tileSize , gp.tileSize);
   }
 }
