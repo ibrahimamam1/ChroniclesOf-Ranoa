@@ -82,6 +82,7 @@ public class Eventhandler {
 
   public void healingPool(int row , int col , int gameState) {
     if(gp.keyH.enterPressed == true) {
+      gp.player.attackCancel = true;
       gp.gameState = gameState;
       gp.uiManager.currentDialogue = "You got healed\n";
       gp.player.life = gp.player.maxlife;

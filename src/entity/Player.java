@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Object.OBJ_Basic_Sword;
 import game.GamePanel;
 import game.KeyHandler;
 import game.UtilityTool;
@@ -19,17 +20,27 @@ public class Player extends Entity{
   public int screenX;
   public int screenY; //Players positio on screen
 
-  boolean attacking = false;
+  public boolean attackCancel = false;
+
   public Player(GamePanel gp , KeyHandler keyH){
     super(gp);
     this.keyH = keyH;
 
     maxlife = 6;
     life = maxlife;
+    speed = 4;
+    level = 1;
+    strength = 1;
+    dexterity  =1;
+    exp = 0;
+    nextLevelExp = 50;
+    coin = 0;
+    currentWeapon = new OBJ_Basic_Sword(gp);
+    attack = strength * currentWeapon.attack;
+    defense = dexterity * currentWeapon.defense;
 
     worldX = 1100;
     worldY = 1000;
-    speed = 4;
     screenX = (gp.screenWidth/2) - (gp.tileSize/2);
     screenY = (gp.screenHeight/2) - (gp.tileSize/2);
 
@@ -106,9 +117,9 @@ public class Player extends Entity{
       
       //CHECK EVENT
       gp.eventhandler.checKEvent();
-      keyH.enterPressed = false;
+      
 
-      if(this.colisionOn ==  false) {
+      if(this.colisionOn ==  false && keyH.enterPressed == false) {
         switch(direction) {
           case "up" : 
             worldY -= speed;  
@@ -124,6 +135,13 @@ public class Player extends Entity{
             break;
         }
       }
+
+      if(keyH.enterPressed == true && attackCancel == false) {
+        attacking = true;
+        spriteCounter = 0;
+      }
+      attackCancel = false;
+      keyH.enterPressed = false;
       //simple sprite changer , the sprite will change after every 10 frames
       spriteCounter++;
       if(spriteCounter>10){
@@ -206,13 +224,10 @@ public class Player extends Entity{
   public void interactNpc(int i) {
     if(keyH.enterPressed == true) {
       if(i != -1) {
+          attackCancel = true;
           gp.gameState = gp.dialogueState;
           gp.npc[i].speak();
         }
-      else {
-          attacking = true;
-          gp.playSoundEffect(6);
-      }
       }
       
   }

@@ -13,35 +13,54 @@ import game.GamePanel;
 import game.UtilityTool;
 
 public class Entity {
+  //GENERAL ATTRIBUTES
   public GamePanel gp;
   public int worldX , worldY; //Position of the entity in the game map
-  public int speed;
-
+  public boolean hpBarOn = false;
+  public int spriteNum = 1; 
+  
+  //ENTITY Stats
   public int maxlife;
   public int life;
+  public int speed;
+  public int level;
+  public int strength;
+  public int dexterity;
+  public int attack;
+  public int defense;
+  public int exp;
+  public int nextLevelExp;
+  public int coin;
+  public Entity currentWeapon;
   public boolean invincible = false;
-  public int invincibleCounter = 0;
   public boolean alive = true;
   public boolean dying = false;
+  
+  
+  //COUNTERS
+  public int hpBarCounter = 0; // count how long monster hPBar will be displayed
+  public int invincibleCounter = 0; //count for how long entity will be invincible 
+  public int spriteCounter = 0; //count the sprite changinging ibnterval
+  public int actionLockCounter = 0; // count what actions NPC does for how long
   public int dyingCounter = 0;
-  public boolean hpBarOn = false;
-  public int hpBarCounter = 0;
 
-  public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
-  public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
-  public String direction = "idle";
-  public String dialogues[] = new String[20];
-  public int dialogueIndex = 0;
-
+  //SOLID AREA
   public Rectangle solidArea = new Rectangle(0 , 0 , 48 , 48);
   public Rectangle attackArea = new Rectangle(0 , 0 , 0 , 0);
   public int solidAreaDefaultX;
   public int solidAreaDefaultY;
   public boolean colisionOn;
 
+  //ENTITY Attributes
   public BufferedImage image , image2 , image3;
+  public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
+  public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
+  public String direction = "idle"; //default direction should be idle
   public String name;
+  public String dialogues[] = new String[20];
+  public int dialogueIndex = 0;
   public boolean walkable = false;
+  boolean attacking = false;
   public enum entityType {
     PLAYER,
     NPC,
@@ -49,10 +68,8 @@ public class Entity {
   };
   public entityType type;
 
-  public int spriteCounter = 0;
-  public int spriteNum = 1; 
 
-  public int actionLockCounter = 0;
+  
 
   public Entity(GamePanel gp) {
     this.gp = gp;

@@ -59,16 +59,25 @@ public class KeyHandler implements KeyListener{
       else if(code == KeyEvent.VK_ENTER){
         enterPressed = true;
       }
+      else if(code == KeyEvent.VK_C){
+        gp.gameState = gp.characterStatusState;
+      }
    }
-
+   //PAUSE STATE
     else if(gp.gameState == gp.pauseState) {
       if(gp.gameState == gp.pauseState) {
         gp.gameState = gp.playState;
       }
     }
-
+    //DIALOGUE STATE
     else if(gp.gameState == gp.dialogueState) {
       if(code == KeyEvent.VK_ENTER) {
+        gp.gameState = gp.playState;
+      }
+    }
+    //CHARACTER STATE
+    else if(gp.gameState == gp.characterStatusState) {
+      if(code == KeyEvent.VK_C) {
         gp.gameState = gp.playState;
       }
     }
