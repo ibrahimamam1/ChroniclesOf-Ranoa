@@ -6,10 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import Object.OBJ_Basic_Sword;
+import Object.OBJ_Key;
 import game.GamePanel;
 import game.KeyHandler;
 import game.UtilityTool;
@@ -21,6 +23,8 @@ public class Player extends Entity{
   public int screenY; //Players positio on screen
 
   public boolean attackCancel = false;
+  public ArrayList<Entity>inventory = new ArrayList<>();
+  public final int maxInventory = 20;
 
   public Player(GamePanel gp , KeyHandler keyH){
     super(gp);
@@ -46,6 +50,7 @@ public class Player extends Entity{
 
     getPlayerImage();
     getPlayerAttackImages();
+    setItems();
 
     solidArea = new Rectangle(8 ,  16 , 32  , 32); //solid are dimesion is smaller than actual character
     solidAreaDefaultX = 8;
@@ -80,6 +85,19 @@ public class Player extends Entity{
     attack_right2 = setup("/assets/characters/attack_right2", gp.tileSize, gp.tileSize);
   }
 
+  public void setItems() {
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+    inventory.add(new OBJ_Key(gp));
+  }
   public void update()
   {
     if (attacking == true) {

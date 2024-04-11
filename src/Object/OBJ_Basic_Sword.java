@@ -10,6 +10,7 @@ public class OBJ_Basic_Sword extends Entity{
     name = "Basic Sword";
     attack = 1;
     defense = 1;
+    description = "[" + name + "]\n Basic Knight Sword";
   }
   
 }

@@ -69,6 +69,8 @@ public class Entity {
   public entityType type;
 
 
+  //ITEM ATTRIBUTES
+  public String description = "";
   
 
   public Entity(GamePanel gp) {
