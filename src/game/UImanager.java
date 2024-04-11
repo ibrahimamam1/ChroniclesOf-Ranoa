@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import Object.OBJ_Hearth;
 import Object.OBJ_Key;
@@ -15,10 +16,11 @@ public class UImanager {
   Graphics2D g2;
   Font arial30 , arial80B;
 
-  String message = "";
   boolean messageOn = false;
-  int messageCounter = 0;
   public String currentDialogue = "";
+
+  ArrayList<String> message = new ArrayList<>();
+  ArrayList<Integer>messageCounter = new ArrayList<>();
 
   public int menuOption = 0;
 
@@ -36,8 +38,9 @@ public class UImanager {
     hearth_full = hearth.image3;
   }
 
-  public void showMessage(String text) {
-    message = text;
+  public void addMessage(String text) {
+    message.add(text);
+    messageCounter.add(0);
     messageOn = true;
   }
 
@@ -52,6 +55,7 @@ public class UImanager {
 
     if(gp.gameState == gp.playState) {
       drawPlayerLife(g2);
+      drawMessage(g2);
     }
     if(gp.gameState == gp.pauseState) {
       drawPauseScreen();
@@ -280,6 +284,26 @@ public class UImanager {
     textY += lineHeight;
 
 
+  }
+
+  public void drawMessage(Graphics2D g2) {
+  
+    int messageX = gp.tileSize;
+    int messageY = gp.tileSize*4;
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 28F));
+
+    for(int i=0; i < message.size(); i++) {
+      if(message.get(i) != null) {
+        g2.setColor(Color.white);
+        g2.drawString(message.get(i), messageX, messageY);
+        int counter = messageCounter.get(i) + 1;
+        messageCounter.set(i , counter);
+        if(messageCounter.get(i) > 180) {
+          message.remove(i);
+          messageCounter.remove(i);
+        }
+      }
+    }
   }
 
   public int getXForCenteredText(String text) {

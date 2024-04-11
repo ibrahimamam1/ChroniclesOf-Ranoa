@@ -14,6 +14,9 @@ public class Mon_Green_Slime extends Entity{
     speed = 1;
     maxlife = 3;
     life = maxlife;
+    attack = 5;
+    defense = 0;
+    exp = 2;
     type = entityType.MONSTER;
 
     solidArea.x = 3;

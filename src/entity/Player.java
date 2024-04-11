@@ -33,7 +33,7 @@ public class Player extends Entity{
     strength = 1;
     dexterity  =1;
     exp = 0;
-    nextLevelExp = 50;
+    nextLevelExp = 5;
     coin = 0;
     currentWeapon = new OBJ_Basic_Sword(gp);
     attack = strength * currentWeapon.attack;
@@ -205,15 +205,44 @@ public class Player extends Entity{
   }
 
   public void damageMonster(int i) {
+
     if(gp.monster[i].invincible == false) {
+
       gp.playSoundEffect(5);
-      gp.monster[i].life -= 1;
+
+      int damage = attack - gp.monster[i].defense;
+      if(damage < 0) damage = 0;
+
+      gp.monster[i].life -= damage;
       gp.monster[i].invincible = true;
       gp.monster[i].damageReaction();
-      if(gp.monster[i].life <= 0) { gp.monster[i].dying = true; };
+
+      if(gp.monster[i].life <= 0) { 
+        gp.monster[i].dying = true;
+        exp += gp.monster[i].exp;
+        checkLevelUp();
+       };
     }
 
   }
+
+  public void checkLevelUp() {
+
+    if(exp >= nextLevelExp) {
+      level++;
+      nextLevelExp *= 2;
+      maxlife += 2;
+      strength++;
+      dexterity++;
+      attack = strength * currentWeapon.attack;
+      defense = dexterity * currentWeapon.defense;
+
+      gp.playSoundEffect(7);
+      gp.uiManager.addMessage("Level Up!!!");
+    }
+
+  }
+
   public void pickUpObject(int i) {
     if(i != -1) {
       
@@ -235,7 +264,10 @@ public class Player extends Entity{
   public void contactMonster(int i) {
     if(i != -1 && invincible == false) {
       gp.playSoundEffect(4);
-      life -= 1;
+      int damage = gp.monster[i].attack - defense;
+      if(damage < 0) damage = 0;
+
+      life -= damage;
       invincible = true;
     }
 
