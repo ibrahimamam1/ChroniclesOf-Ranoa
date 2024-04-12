@@ -3,6 +3,7 @@ package monster;
 import java.util.Random;
 
 import entity.Entity;
+import entity.Fireball;
 import game.GamePanel;
 
 public class Mon_Green_Slime extends Entity{
@@ -18,6 +19,7 @@ public class Mon_Green_Slime extends Entity{
     defense = 0;
     exp = 2;
     type = entityType.MONSTER;
+    projectile = new Fireball(gp);
 
     solidArea.x = 3;
     solidArea.y =  18;
@@ -58,6 +60,13 @@ public class Mon_Green_Slime extends Entity{
         direction = "right";
       }
       actionLockCounter = 0;
+    }
+
+    int i = new Random().nextInt(100)+1;
+    if(i > 99 && projectile.alive == false && shotAvailableCounter == 30) {
+      projectile.set(worldX, worldY, direction, true, this);
+      gp.projectileList.add(projectile);
+      shotAvailableCounter = 0;
     }
     
   }

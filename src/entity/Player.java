@@ -32,6 +32,8 @@ public class Player extends Entity{
 
     maxlife = 6;
     life = maxlife;
+    maxMana = 4;
+    mana = maxMana;
     speed = 4;
     level = 1;
     strength = 1;
@@ -40,6 +42,7 @@ public class Player extends Entity{
     nextLevelExp = 5;
     coin = 0;
     currentWeapon = new OBJ_Basic_Sword(gp);
+    projectile = new Fireball(gp);
     attack = strength * currentWeapon.attack;
     defense = dexterity * currentWeapon.defense;
 
@@ -161,12 +164,26 @@ public class Player extends Entity{
       }
     }
     
+    //SHOOTING PROJECTILE
+    if(gp.keyH.shootKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30
+        && projectile.haveResource(this) == true) {
+
+      projectile.set(worldX , worldY , direction , true , this);
+      projectile.substractResources(this);
+      gp.projectileList.add(projectile);
+      shotAvailableCounter = 0;
+      gp.playSoundEffect(9);
+
+    }
     if(invincible == true) {
       invincibleCounter++;
       if(invincibleCounter == 60) {
         invincible = false;
         invincibleCounter = 0;
       }
+    }
+    if(shotAvailableCounter < 30) {
+      shotAvailableCounter++;
     }
 
   }
@@ -197,7 +214,7 @@ public class Player extends Entity{
 
       //check monster collison
       int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
-      if(monsterIndex != -1) { damageMonster(monsterIndex) ;}
+      if(monsterIndex != -1) { damageMonster(monsterIndex , attack) ;}
 
 
       //Restore original data
@@ -213,7 +230,7 @@ public class Player extends Entity{
     }
   }
 
-  public void damageMonster(int i) {
+  public void damageMonster(int i , int attack) {
 
     if(gp.monster[i].invincible == false) {
 

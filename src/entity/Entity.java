@@ -28,10 +28,13 @@ public class Entity {
   public int dexterity;
   public int attack;
   public int defense;
+  public int maxMana;
+  public int mana;
   public int exp;
   public int nextLevelExp;
   public int coin;
   public Entity currentWeapon;
+  public Projectile projectile;
   public boolean invincible = false;
   public boolean alive = true;
   public boolean dying = false;
@@ -43,6 +46,7 @@ public class Entity {
   public int spriteCounter = 0; //count the sprite changinging ibnterval
   public int actionLockCounter = 0; // count what actions NPC does for how long
   public int dyingCounter = 0;
+  public int shotAvailableCounter = 0;
 
   //SOLID AREA
   public Rectangle solidArea = new Rectangle(0 , 0 , 48 , 48);
@@ -108,12 +112,7 @@ public class Entity {
     boolean contact = gp.colisionDetector.checkPlayer(this);
 
     if(contact && type == entityType.MONSTER) {
-      if(gp.player.invincible == false) {
-        int damage = attack - gp.player.defense;
-        if(damage < 0) damage = 0;
-        gp.player.life -= damage;
-        gp.player.invincible = true;
-      }
+      damagePlayer(attack);
     }
 
     if(this.colisionOn ==  false) {
@@ -148,8 +147,20 @@ public class Entity {
         invincibleCounter = 0;
       }
     }
+
+    if(shotAvailableCounter < 30) {
+      shotAvailableCounter++;
+    }
   }
   
+  public void damagePlayer(int attack) {
+    if(gp.player.invincible == false) {
+      int damage = attack - gp.player.defense;
+      if(damage < 0) damage = 0;
+      gp.player.life -= damage;
+      gp.player.invincible = true;
+    }
+  }
   public void speak() {
     if(dialogueIndex > 4)
     dialogueIndex = 0;

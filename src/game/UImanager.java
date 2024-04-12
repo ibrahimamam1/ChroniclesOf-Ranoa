@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import Object.OBJ_Hearth;
 import Object.OBJ_Key;
+import Object.OBJ_Mana_Crystal;
 import entity.Entity;
 
 public class UImanager {
@@ -24,7 +25,8 @@ public class UImanager {
 
   public int menuOption = 0;
 
-  public BufferedImage hearth_blank , hearth_half , hearth_full; 
+  public BufferedImage hearth_blank , hearth_half , hearth_full , crystal_blank , crystal_full;
+
   public int slotCol = 0;
   public int  slotRow  =0;
 
@@ -35,9 +37,13 @@ public class UImanager {
 
     //HUD Objects
     Entity hearth = new OBJ_Hearth(gp);
+    Entity crystal = new OBJ_Mana_Crystal(gp);
+
     hearth_blank = hearth.image;
     hearth_half = hearth.image2;
     hearth_full = hearth.image3;
+    crystal_blank = crystal.image;
+    crystal_full = crystal.image2;
   }
 
   public void addMessage(String text) {
@@ -151,6 +157,27 @@ public class UImanager {
       x += gp.tileSize;
     }
 
+    //DRAW MAX MANA
+    x = gp.tileSize/2;
+    y = gp.tileSize*2;
+    i = 0;
+
+    while(i < gp.player.maxMana) {
+      g2.drawImage(crystal_blank, x , y , null);
+      i++;
+      x += 35;
+    }
+
+    //DRAW MANA
+    x = gp.tileSize/2;
+    y = gp.tileSize*2;
+    i = 0;
+
+    while(i < gp.player.mana) {
+      g2.drawImage(crystal_full, x , y , null);
+      i++;
+      x += 35;
+    }
   }
 
   public void drawDialogueWindow() {
@@ -215,6 +242,9 @@ public class UImanager {
     g2.drawString("life ", textX, textY);
     textY += lineHeight;
 
+    g2.drawString("mana ", textX, textY);
+    textY += lineHeight;
+
     g2.drawString("Strength ", textX, textY);
     textY += lineHeight;
 
@@ -247,6 +277,11 @@ public class UImanager {
     textY += lineHeight;
 
     value = String.valueOf(gp.player.life + "/" + gp.player.maxlife);
+    textX = getXForRightAlignText(value , tailX);
+    g2.drawString(value, textX, textY);
+    textY += lineHeight;
+
+    value = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
     textX = getXForRightAlignText(value , tailX);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
