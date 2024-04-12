@@ -64,7 +64,9 @@ public class Entity {
   public enum entityType {
     PLAYER,
     NPC,
-    MONSTER
+    MONSTER,
+    SWORD,
+    CONSUMABLE
   };
   public entityType type;
 
@@ -94,6 +96,7 @@ public class Entity {
 
   public void setAction() {}
   public void damageReaction() {}
+  public void use(Entity entity) {}
 
   public void update() {
     setAction();

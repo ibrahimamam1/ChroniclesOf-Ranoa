@@ -19,7 +19,7 @@ public class UImanager {
   boolean messageOn = false;
   public String currentDialogue = "";
 
-  ArrayList<String> message = new ArrayList<>();
+  public ArrayList<String> message = new ArrayList<>();
   ArrayList<Integer>messageCounter = new ArrayList<>();
 
   public int menuOption = 0;
@@ -309,8 +309,14 @@ public class UImanager {
     int cursorWidth = gp.tileSize;
     int cursorHeight = gp.tileSize;
 
-    //DRAW ITEMS
+    //DRAW Player's ITEMS
     for(int i=0; i<gp.player.inventory.size(); i++) {
+
+      //EUIPED CURSOR
+      if(gp.player.inventory.get(i) == gp.player.currentWeapon) {
+        g2.setColor(new Color(240 , 90 , 90));
+        g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+      }
       g2.drawImage(gp.player.inventory.get(i).image , slotX , slotY , gp.tileSize , gp.tileSize , null);
       slotX += slotSize;
       if(i == 4 || i == 9 || i == 14) {
@@ -328,7 +334,6 @@ public class UImanager {
     int dFrameY = frameY + frameHeight;
     int dFrameWidth = frameWidth;
     int dFrameHeight = gp.tileSize * 3;
-    drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 
     //DRAW DESCRIPTION TEXT
     int textX = dFrameX + 20;
@@ -337,6 +342,7 @@ public class UImanager {
     int itemIndex = getItemIndexOnSlot();
 
     if(itemIndex < gp.player.inventory.size()) {
+      drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
       for(String line : gp.player.inventory.get(itemIndex).description.split("\n")) {
         g2.drawString(line, textX, textY);
         textY += 32;

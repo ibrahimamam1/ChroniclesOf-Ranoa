@@ -86,29 +86,37 @@ public class KeyHandler implements KeyListener{
       if(code == KeyEvent.VK_C) {
         gp.gameState = gp.playState;
       }
+
       else if(code == KeyEvent.VK_W) {
         if(gp.uiManager.slotRow != 0) {
           gp.uiManager.slotRow--;
           gp.playSoundEffect(8);
         }
       }
+
       else if(code == KeyEvent.VK_S) {
         if(gp.uiManager.slotRow != 3) {
           gp.uiManager.slotRow++;
           gp.playSoundEffect(8);
         }
       }
+
       else if(code == KeyEvent.VK_A) {
         if(gp.uiManager.slotCol != 0) {
           gp.uiManager.slotCol--;
           gp.playSoundEffect(8);
         }
       }
+
       else if(code == KeyEvent.VK_D) {
         if(gp.uiManager.slotCol != 4) {
           gp.uiManager.slotCol++;
           gp.playSoundEffect(8);
         }
+      }
+
+      else if(code == KeyEvent.VK_ENTER) {
+        gp.player.selectItem();
       }
     }
   }

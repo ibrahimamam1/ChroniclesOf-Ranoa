@@ -86,16 +86,7 @@ public class Player extends Entity{
   }
 
   public void setItems() {
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
-    inventory.add(new OBJ_Key(gp));
+    inventory.add(currentWeapon);
     inventory.add(new OBJ_Key(gp));
   }
   public void update()
@@ -261,10 +252,36 @@ public class Player extends Entity{
 
   }
 
+  public void selectItem() {
+    int itemIndex = gp.uiManager.getItemIndexOnSlot();
+    if(itemIndex < inventory.size()) {
+      Entity selectedItem = inventory.get(itemIndex);
+      if(selectedItem.type == entityType.SWORD) {
+        currentWeapon = selectedItem;
+        attack = strength * currentWeapon.attack;
+        defense = dexterity * currentWeapon.defense;
+      }
+      if(selectedItem.type == entityType.CONSUMABLE) {
+        selectedItem.use(this);
+        inventory.remove(itemIndex);
+      }
+    }
+  }
+
   public void pickUpObject(int i) {
     if(i != -1) {
-      
-      
+      String text;
+      if(inventory.size() < maxInventory) {
+        inventory.add(gp.obj[i]);
+        gp.playSoundEffect(1);
+        text = "Picked Up " + gp.obj[i].name;
+
+        gp.obj[i] = null;
+      }
+      else {
+        text = "Inventory Full!!";
+      }
+      gp.uiManager.addMessage(text);
     }
   }
 
