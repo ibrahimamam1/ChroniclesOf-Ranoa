@@ -63,6 +63,7 @@ public class Entity {
   public String name;
   public String dialogues[] = new String[20];
   public int dialogueIndex = 0;
+  public int value;
   public boolean walkable = false;
   boolean attacking = false;
   public enum entityType {
@@ -70,7 +71,8 @@ public class Entity {
     NPC,
     MONSTER,
     SWORD,
-    CONSUMABLE
+    CONSUMABLE,
+    PICKUP_ONLY
   };
   public entityType type;
 
@@ -101,6 +103,17 @@ public class Entity {
   public void setAction() {}
   public void damageReaction() {}
   public void use(Entity entity) {}
+  public void checkDrop() {};
+  public void dropItem(Entity droppedItem) {
+    for(int i=0; i<gp.obj.length; i++) {
+      if(gp.obj[i] == null) {
+        gp.obj[i] = droppedItem;
+        gp.obj[i].worldX = worldX;
+        gp.obj[i].worldY = worldY;
+        break;
+      }
+    }
+  }
 
   public void update() {
     setAction();

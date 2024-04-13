@@ -1,6 +1,7 @@
 package game;
 
 import Object.OBJ_Boots;
+import Object.OBJ_Bronze_Coin;
 import Object.OBJ_Chest;
 import Object.OBJ_Door;
 import Object.OBJ_Key;
@@ -29,6 +30,11 @@ public class AssetSetter {
     gp.obj[i] = new OBJ_Red_Potion(gp); 
     gp.obj[i].worldX = gp.tileSize*30;
     gp.obj[i].worldY = gp.tileSize*21;
+    i++;
+
+    gp.obj[i] = new OBJ_Bronze_Coin(gp); 
+    gp.obj[i].worldX = gp.tileSize*23;
+    gp.obj[i].worldY = gp.tileSize*26;
     i++;
   }
   public void setNPC() {

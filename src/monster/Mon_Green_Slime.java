@@ -2,6 +2,8 @@ package monster;
 
 import java.util.Random;
 
+import Object.OBJ_Bronze_Coin;
+import Object.OBJ_Red_Potion;
 import entity.Entity;
 import entity.Fireball;
 import game.GamePanel;
@@ -73,6 +75,17 @@ public class Mon_Green_Slime extends Entity{
   public void damageReaction() {
     actionLockCounter = 0;
     direction = gp.player.direction;
+  }
+
+  public void checkDrop() {
+    int i = new Random().nextInt(100) + 1;
+
+    if(i < 50) {
+      dropItem(new OBJ_Bronze_Coin(gp));
+    }
+    if(i >= 50) {
+      dropItem(new OBJ_Red_Potion(gp));
+    }
   }
   
 }

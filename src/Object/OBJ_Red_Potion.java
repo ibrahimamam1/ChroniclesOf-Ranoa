@@ -5,7 +5,6 @@ import game.GamePanel;
 
 public class OBJ_Red_Potion extends Entity{
 
-  public final int value = 2;
 
   public OBJ_Red_Potion(GamePanel gp) {
     
@@ -16,6 +15,7 @@ public class OBJ_Red_Potion extends Entity{
     description = "[" + name + "]\n SlightLy Restore Hp";
     direction = "down";
     type = entityType.CONSUMABLE;
+    value = 2;
   }
 
   public void use(Entity entity) {

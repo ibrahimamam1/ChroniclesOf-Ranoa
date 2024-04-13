@@ -287,18 +287,27 @@ public class Player extends Entity{
 
   public void pickUpObject(int i) {
     if(i != -1) {
-      String text;
-      if(inventory.size() < maxInventory) {
-        inventory.add(gp.obj[i]);
-        gp.playSoundEffect(1);
-        text = "Picked Up " + gp.obj[i].name;
 
+      //PICKUP_ONLY OBJECTS
+      if(gp.obj[i].type == entityType.PICKUP_ONLY) {
+        gp.obj[i].use(this);
         gp.obj[i] = null;
       }
+      
       else {
-        text = "Inventory Full!!";
+        String text;
+        if(inventory.size() < maxInventory) {
+          inventory.add(gp.obj[i]);
+          gp.playSoundEffect(1);
+          text = "Picked Up " + gp.obj[i].name;
+
+          gp.obj[i] = null;
+        }
+        else {
+          text = "Inventory Full!!";
+        }
+        gp.uiManager.addMessage(text);
       }
-      gp.uiManager.addMessage(text);
     }
   }
 
