@@ -130,15 +130,22 @@ public class KeyHandler implements KeyListener{
 
    if(code == KeyEvent.VK_W){
     upPressed = false;
+    gp.player.direction = "idle_up";
    }
    else if(code == KeyEvent.VK_S){
     downPressed = false;
+    gp.player.direction = "idle_down";
    }
    else if(code == KeyEvent.VK_A){
     leftPressed = false;
+    gp.player.direction = "idle_left";
    }
    else if(code == KeyEvent.VK_D){
     rightPressed = false;
+    gp.player.direction = "idle_right";
+   }
+   else if(code == KeyEvent.VK_ENTER){
+    enterPressed = false;
    }
    else if(code == KeyEvent.VK_F){
     shootKeyPressed = false;

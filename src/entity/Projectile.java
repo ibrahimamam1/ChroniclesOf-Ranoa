@@ -16,7 +16,22 @@ public class Projectile extends Entity{
 
     this.worldX = worldX;
     this.worldY = worldY;
-    this.direction = direction;
+    if(direction == "left" || direction == "right" || direction == "up" || direction == "down") {
+      this.direction = direction;
+    }
+    else if(direction == "idle_up") {
+      this.direction = "up";
+    }
+    else if(direction == "idle_down") {
+      this.direction = "down";
+    }
+    else if(direction == "idle_left") {
+      this.direction = "left";
+    }
+    else if(direction == "idle_right") {
+      this.direction = "right";
+    }
+    
     this.alive = alive;
     this.user = user;
     this.life = maxlife;

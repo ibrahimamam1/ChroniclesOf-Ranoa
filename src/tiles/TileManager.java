@@ -11,18 +11,19 @@ import game.GamePanel;
 import game.UtilityTool;
 
 public class TileManager {
+
   GamePanel gp;
   public Tile[] tile;
-  public int mapTileNum[][]; // will store map information in here
+  public int mapTileNum[][]; // array storing map position of each tile
 
 
   public TileManager(GamePanel gp) {
+
     this.gp = gp;
-    tile = new Tile[50]; //50 different type of tiles should be enough
+    tile = new Tile[50]; //Array containing all different type of tiles
     mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 
     getTileImage();
-    loadMap();
   }
 
   public void getTileImage() {
@@ -73,7 +74,9 @@ public class TileManager {
       setup(41, "tree", false);
       
   }
+
   public void setup(int index , String imagePath ,boolean isWalkable) {
+
     UtilityTool uTool = new UtilityTool();
     
     try{
@@ -89,8 +92,36 @@ public class TileManager {
     }
 
   }
+
+  public void loadMap() {
+
+    try {
+
+      InputStream is = getClass().getResourceAsStream("/maps/worldV2.txt");
+      BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+      for(int i=0; i<gp.maxWorldRow; i++) {
+        String line = br.readLine();
+        for(int j=0; j<gp.maxWorldCol; j++) {
+          String numbers[] = line.split(" ");
+          int num = Integer.parseInt(numbers[j]);
+          mapTileNum[i][j] = num;
+        }
+      }
+
+      br.close();
+    } 
+
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
+
   public void draw(Graphics2D g2) {
+
     for(int i=0; i<gp.maxWorldRow; i++) {
+
       for(int j=0; j<gp.maxWorldCol; j++) {
 
         //position of tile in world
@@ -108,28 +139,8 @@ public class TileManager {
             g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , null);
           }
       }
-
-        
     } 
   }
 
-  public void loadMap() {
-    try {
-      InputStream is = getClass().getResourceAsStream("/maps/worldV2.txt");
-      BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-      for(int i=0; i<gp.maxWorldRow; i++) {
-        String line = br.readLine();
-        for(int j=0; j<gp.maxWorldCol; j++) {
-          String numbers[] = line.split(" ");
-          int num = Integer.parseInt(numbers[j]);
-          mapTileNum[i][j] = num;
-        }
-      }
-      br.close();
-    } 
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-  }
+  
 }

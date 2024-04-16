@@ -47,19 +47,17 @@ public class UImanager {
   }
 
   public void addMessage(String text) {
+
     message.add(text);
     messageCounter.add(0);
     messageOn = true;
+
   }
 
   public void draw(Graphics2D g2) {
     this.g2 = g2;
     g2.setFont(arial30);
     g2.setColor(Color.white);
-
-    if(gp.gameState == gp.titleState) {
-      drawTitleScreen(g2);
-    }
 
     if(gp.gameState == gp.playState) {
       drawPlayerLife(g2);
@@ -81,6 +79,7 @@ public class UImanager {
   }
   
   public void drawTitleScreen(Graphics2D g2) {
+    this.g2 = g2;
     //title Name
     g2.setFont(g2.getFont().deriveFont(Font.BOLD , 60F));
     String text = "Chronicles Of Ranoa";
@@ -131,53 +130,33 @@ public class UImanager {
 
   public void drawPlayerLife(Graphics2D g2) {
 
-    //DRAW MAXLIFE
     int x = gp.tileSize/2;
     int y = gp.tileSize/2;
-    int i=0;
 
-    while(i<gp.player.maxlife/2) {
-      g2.drawImage(hearth_blank, x, y , null);
-      i++;
-      x += gp.tileSize;
-    }
+    int frameLength = gp.tileSize * (gp.player.maxlife/10);
+    double oneHealthUnit = (double)frameLength/gp.player.maxlife;
+    double hpBarValue = oneHealthUnit * gp.player.life;
 
-    x = gp.tileSize/2;
-    y = gp.tileSize/2;
-    i = 0;
+    g2.setColor(new Color(35 , 35 , 35));
+    g2.fillRect(x, y, frameLength , 10);
 
-    //DRAW CURRENT LIFE
-    while(i < gp.player.life) {
-      g2.drawImage(hearth_half, x , y , null);
-      i++;
-      if( i < gp.player.life) {
-        g2.drawImage(hearth_full, x , y , null);
-      }
-      i++;
-      x += gp.tileSize;
-    }
+    g2.setColor(new Color(255 , 0 , 30));
+    g2.fillRect(x, y,(int)hpBarValue, 12);
+    
 
     //DRAW MAX MANA
     x = gp.tileSize/2;
     y = gp.tileSize*2;
-    i = 0;
+    frameLength = gp.tileSize * (gp.player.maxMana/10);
 
-    while(i < gp.player.maxMana) {
-      g2.drawImage(crystal_blank, x , y , null);
-      i++;
-      x += 35;
-    }
+    double oneManaUnit = (double)frameLength/gp.player.maxMana;
+    double manaBarValue = oneManaUnit * gp.player.mana;
 
-    //DRAW MANA
-    x = gp.tileSize/2;
-    y = gp.tileSize*2;
-    i = 0;
+    g2.setColor(new Color(35 , 35 , 35));
+    g2.fillRect(x, y, frameLength , 10);
 
-    while(i < gp.player.mana) {
-      g2.drawImage(crystal_full, x , y , null);
-      i++;
-      x += 35;
-    }
+    g2.setColor(new Color(122 , 192 , 224));
+    g2.fillRect(x, y,(int)manaBarValue, 12);
   }
 
   public void drawDialogueWindow() {
@@ -389,18 +368,22 @@ public class UImanager {
   
     int messageX = gp.tileSize;
     int messageY = gp.tileSize*4;
-    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 28F));
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 20F));
 
     for(int i=0; i < message.size(); i++) {
+
       if(message.get(i) != null) {
+
         g2.setColor(Color.white);
         g2.drawString(message.get(i), messageX, messageY);
+
         int counter = messageCounter.get(i) + 1;
         messageCounter.set(i , counter);
-        if(messageCounter.get(i) > 180) {
+        if(messageCounter.get(i) > 120) {
           message.remove(i);
           messageCounter.remove(i);
         }
+        
       }
     }
   }

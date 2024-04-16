@@ -1,10 +1,6 @@
 package game;
 
-import Object.OBJ_Boots;
 import Object.OBJ_Bronze_Coin;
-import Object.OBJ_Chest;
-import Object.OBJ_Door;
-import Object.OBJ_Key;
 import Object.OBJ_King_Sword;
 import Object.OBJ_Red_Potion;
 import entity.NPC_OLD_MAN ;
@@ -13,13 +9,16 @@ import monster.Mon_Green_Slime;
 
 
 public class AssetSetter {
+
   GamePanel gp;
 
   AssetSetter(GamePanel gp) {
     this.gp = gp;
   }
 
+  //CREATE AND PLACE ALL OBJECTS
   public void setObject() {
+    
     int i=0;
 
     gp.obj[i] = new OBJ_King_Sword(gp); 
@@ -37,20 +36,31 @@ public class AssetSetter {
     gp.obj[i].worldY = gp.tileSize*26;
     i++;
   }
+
+  //CREATE AND PLACE ALL NPCS
   public void setNPC() {
-    gp.npc[0] =  new NPC_OLD_MAN(gp);
-    gp.npc[0].worldX = gp.tileSize*21;
-    gp.npc[0].worldY = gp.tileSize*21;
+
+    int i=0;
+    gp.npc[i] =  new NPC_OLD_MAN(gp);
+    gp.npc[i].worldX = gp.tileSize*21;
+    gp.npc[i].worldY = gp.tileSize*21;
+    i++;
+
   }
 
+  //CREATE AND PLACE ALL MONSTERS
   public void setMonster() {
 
-    gp.monster[0] = new Mon_Green_Slime(gp);
-    gp.monster[0].worldX = gp.tileSize * 22;
-    gp.monster[0].worldY = gp.tileSize * 35;
+    int i = 0;
+    gp.monster[i] = new Mon_Green_Slime(gp);
+    gp.monster[i].worldX = gp.tileSize * 22;
+    gp.monster[i].worldY = gp.tileSize * 35;
+    i++;
 
-    gp.monster[1] = new Mon_Green_Slime(gp);
-    gp.monster[1].worldX = gp.tileSize * 22;
-    gp.monster[1].worldY = gp.tileSize * 37;
+    gp.monster[i] = new Mon_Green_Slime(gp);
+    gp.monster[i].worldX = gp.tileSize * 22;
+    gp.monster[i].worldY = gp.tileSize * 37;
+    i++;
+    
   }
 }

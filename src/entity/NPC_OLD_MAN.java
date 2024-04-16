@@ -58,6 +58,10 @@ public class NPC_OLD_MAN extends Entity{
   }
 
   public void speak() {
-    super.speak();
+    if(dialogueIndex > 4)
+    dialogueIndex = 0;
+    gp.uiManager.currentDialogue = dialogues[dialogueIndex++];
+
+    facePlayer();
   }
 }

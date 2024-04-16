@@ -57,7 +57,7 @@ public class Entity {
 
   //ENTITY Attributes
   public BufferedImage image , image2 , image3;
-  public BufferedImage idle , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
+  public BufferedImage idle , idle_right , idle_left , idle_up , idle_down , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
   public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
   public String direction = "idle"; //default direction should be idle
   public String name;
@@ -86,12 +86,13 @@ public class Entity {
   }
 
   public BufferedImage setup(String imagePath , int width , int height){
+
       UtilityTool uTool = new UtilityTool();
       BufferedImage scaledImage = null;
 
       try {
         scaledImage = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-        //scaledImage = uTool.scaleImage(scaledImage, gp.tileSize*2, gp.tileSize*2);
+        //scaledImage = uTool.scaleImage(scaledImage, width, height);
       }
       catch(IOException e) {
         e.printStackTrace();
@@ -174,24 +175,15 @@ public class Entity {
       gp.player.invincible = true;
     }
   }
-  public void speak() {
-    if(dialogueIndex > 4)
-    dialogueIndex = 0;
-    gp.uiManager.currentDialogue = dialogues[dialogueIndex++];
+  public void speak() {}
+
+  public void facePlayer() {
 
     switch (direction) {
-      case "up":
-          direction = "down";
-        break;
-      case "down":
-          direction = "up";
-        break;
-      case "left":
-          direction = "right";
-        break;
-      case "right":
-          direction = "left";
-        break;
+      case "up": direction = "down"; break;
+      case "down": direction = "up"; break;
+      case "left": direction = "right"; break;
+      case "right": direction = "left"; break;
     
     }
   }

@@ -13,6 +13,15 @@ public class OBJ_Mana_Crystal extends Entity{
     description = "[" + name + "]\n SlightLy Restore Mana";
     direction = "down";
     type = entityType.CONSUMABLE;
+    value = 2;
+  }
+
+  public void use(Entity entity) {
+    entity.mana += value;
+    if(entity.mana > entity.maxMana) {
+      entity.mana = entity.maxMana;
+    }
+    gp.playSoundEffect(2);
   }
   
 }
