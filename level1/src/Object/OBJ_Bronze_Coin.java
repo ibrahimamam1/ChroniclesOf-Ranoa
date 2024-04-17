@@ -6,6 +6,7 @@ import game.GamePanel;
 public class OBJ_Bronze_Coin extends Entity{
 
   public OBJ_Bronze_Coin(GamePanel gp) {
+    
     super(gp);
     name = "Bronze Coin";
     down1 = setup("/assets/Object/coin_bronze", gp.tileSize, gp.tileSize);

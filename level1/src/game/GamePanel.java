@@ -123,15 +123,18 @@ public class GamePanel extends JPanel implements Runnable{
 
       player.update(); //update player
 
-      //update npc
+      //UPDATE NPCS
       for(int i=0; i<npc.length; i++) {
+        
         if(npc[i] != null) {
           npc[i].update();
         }
+
       }
 
-      //update monster
+      //UPDATE MONSTER
       for(int i=0; i<monster.length; i++) {
+
         if(monster[i] != null && monster[i].alive == true) {
           monster[i].update();
         }
@@ -139,12 +142,14 @@ public class GamePanel extends JPanel implements Runnable{
           monster[i].checkDrop();
           monster[i] = null;
         }
+
       }
 
-      //update projectile
-      for(int i=0; i<projectileList.size(); i++) {
-        if(projectileList.get(i) != null && projectileList.get(i).alive == true) {
+      //UPDATE PROJECTILE
 
+      for(int i=0; i<projectileList.size(); i++) {
+
+        if(projectileList.get(i) != null && projectileList.get(i).alive == true) {
           projectileList.get(i).update();
         }
 
@@ -169,43 +174,53 @@ public class GamePanel extends JPanel implements Runnable{
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
+    //TITLE SCREEN
     if(gameState == titleState) {
         uiManager.drawTitleScreen(g2);
     }
 
     else {
         
-      tileManager.draw(g2); //draw Tiles
+      //DRAW TILES
+      tileManager.draw(g2);
 
       //ADD ALL ENTITIES TO ENTITY LIST
       entityList.add(player); //add player
 
-      //add npcs
+      //ADD NPCS
       for(int i=0;i<npc.length; i++) {
+
         if(npc[i] != null)  {
           entityList.add(npc[i]);
         }
+
       }
 
-      //add monsters
+      //ADD MONSTERS
       for(int i=0;i<monster.length; i++) {
+
         if(monster[i] != null)  {
           entityList.add(monster[i]);
         }
+
       }
 
-      //add projectiles
+      //ADD PROJECTILES
       for(int i=0;i<projectileList.size(); i++) {
+
         if(projectileList.get(i) != null)  {
           entityList.add(projectileList.get(i));
         }
+
       }
 
       //add objects
       for(int i=0; i<obj.length; i++) {
+
         if(obj[i] != null) {
           entityList.add(obj[i]);
         }
+
       }
 
       //SORT ENTITY LIST BASED ON Y POSITION
@@ -237,15 +252,19 @@ public class GamePanel extends JPanel implements Runnable{
   }
 
   public void playMusic(int i) {
+
     musicManager.setFile(i);
     musicManager.play();
     musicManager.loop();
+
   }
   public void stopMusic() {
     musicManager.stop();
   }
   public void playSoundEffect(int i) {
+
     soundEffectManager.setFile(i);
     soundEffectManager.play();
+    
   }
 }

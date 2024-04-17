@@ -4,29 +4,25 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import Object.OBJ_Hearth;
-import Object.OBJ_Key;
-import Object.OBJ_Mana_Crystal;
-import entity.Entity;
 
 public class UImanager {
+
   GamePanel gp;
   Graphics2D g2;
   Font arial30 , arial80B;
 
-  boolean messageOn = false;
   public String currentDialogue = "";
 
+  //ON SCREEN MESSAGES
   public ArrayList<String> message = new ArrayList<>();
   ArrayList<Integer>messageCounter = new ArrayList<>();
 
   public int menuOption = 0;
 
-  public BufferedImage hearth_blank , hearth_half , hearth_full , crystal_blank , crystal_full;
 
+  //INVENTORY CURSOR
   public int slotCol = 0;
   public int  slotRow  =0;
 
@@ -34,27 +30,18 @@ public class UImanager {
     this.gp =  gp;
     arial30 = new Font("Arial" , Font.PLAIN , 30);
     arial80B = new Font("Arial" , Font.BOLD , 80);
-
-    //HUD Objects
-    Entity hearth = new OBJ_Hearth(gp);
-    Entity crystal = new OBJ_Mana_Crystal(gp);
-
-    hearth_blank = hearth.image;
-    hearth_half = hearth.image2;
-    hearth_full = hearth.image3;
-    crystal_blank = crystal.image;
-    crystal_full = crystal.image2;
+    
   }
 
   public void addMessage(String text) {
 
     message.add(text);
     messageCounter.add(0);
-    messageOn = true;
 
   }
 
   public void draw(Graphics2D g2) {
+
     this.g2 = g2;
     g2.setFont(arial30);
     g2.setColor(Color.white);
@@ -63,15 +50,17 @@ public class UImanager {
       drawPlayerLife(g2);
       drawMessage(g2);
     }
-    if(gp.gameState == gp.pauseState) {
+
+    else if(gp.gameState == gp.pauseState) {
       drawPauseScreen();
       drawPlayerLife(g2);
     }
-    if(gp.gameState == gp.dialogueState) {
+
+    else if(gp.gameState == gp.dialogueState) {
       drawDialogueWindow();
-      drawPlayerLife(g2);
     }
-    if(gp.gameState == gp.characterStatusState) {
+
+    else if(gp.gameState == gp.characterStatusState) {
       drawCharacterStatusFrame(g2);
       drawInventory(g2);
     }
@@ -79,18 +68,20 @@ public class UImanager {
   }
   
   public void drawTitleScreen(Graphics2D g2) {
+
     this.g2 = g2;
-    //title Name
+    
+    //TITLE
     g2.setFont(g2.getFont().deriveFont(Font.BOLD , 60F));
     String text = "Chronicles Of Ranoa";
     int x = getXForCenteredText(text);
     int y = gp.tileSize*3;
 
-    //draw text shadow
+    //TEXT SHADOW
     g2.setColor(Color.gray);
     g2.drawString(text , x+5 , y+5);
 
-    //draw main text 
+    //MAIN TEXT
     g2.setColor(Color.white);
     g2.drawString(text , x , y);
 
@@ -125,7 +116,9 @@ public class UImanager {
     if(menuOption == 2) {
       g2.drawString(">", x-gp.tileSize, y);
     }
+
     g2.drawString(text, x, y);
+
   }
 
   public void drawPlayerLife(Graphics2D g2) {
@@ -160,8 +153,8 @@ public class UImanager {
   }
 
   public void drawDialogueWindow() {
+    
     //WINDOW
-
     int x = gp.tileSize/2;
     int y = gp.tileSize/2;
     int width = gp.screenWidth - (gp.tileSize*4);
@@ -180,6 +173,7 @@ public class UImanager {
   }
 
   public void drawSubWindow(int x , int y , int w , int h) {
+
     Color c = new Color(0 ,0 , 0 , 210);
     g2.setColor(c);
     g2.fillRoundRect(x, y, w, h, 35, 35);
@@ -188,6 +182,7 @@ public class UImanager {
     g2.setColor(c);
     g2.setStroke(new BasicStroke(5));
     g2.drawRoundRect(x+5, y+5, w, h-10, 25, 25);
+
   }
 
   public void drawPauseScreen() {
@@ -196,6 +191,7 @@ public class UImanager {
     int x = getXForCenteredText(text);
     int y = gp.screenHeight/2;
     g2.drawString(text , x , y);
+
   }
 
   public void drawCharacterStatusFrame(Graphics2D g2) {
@@ -304,14 +300,16 @@ public class UImanager {
   }
 
   public void drawInventory(Graphics2D g2) {
+
     int frameX =  gp.tileSize*9;
     int frameY = gp.tileSize;
     int frameWidth= gp.tileSize * 6;
     int  frameHeight = gp.tileSize * 5;
+
     drawSubWindow(frameX  , frameY , frameWidth , frameHeight);
 
     //SLOT
-    final int slotXStart = frameX +20;
+    final int slotXStart = frameX + 20;
     final int slotYStart = frameY +  20;
     int slotX = slotXStart;
     int slotY = slotYStart;
@@ -326,17 +324,22 @@ public class UImanager {
     //DRAW Player's ITEMS
     for(int i=0; i<gp.player.inventory.size(); i++) {
 
-      //EUIPED CURSOR
+      //EQUIPED ITEM
       if(gp.player.inventory.get(i) == gp.player.currentWeapon) {
+
         g2.setColor(new Color(240 , 90 , 90));
         g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+
       }
+
+      //OTHER ITEMS
       g2.drawImage(gp.player.inventory.get(i).image , slotX , slotY , gp.tileSize , gp.tileSize , null);
       slotX += slotSize;
       if(i == 4 || i == 9 || i == 14) {
         slotX =  slotXStart;
         slotY += gp.tileSize;
       }
+
     }
     //DRAW CURSOR
     g2.setColor(Color.white);
@@ -353,14 +356,17 @@ public class UImanager {
     int textX = dFrameX + 20;
     int textY = dFrameY + gp.tileSize;
     g2.setFont(g2.getFont().deriveFont(20F));
+
     int itemIndex = getItemIndexOnSlot();
 
     if(itemIndex < gp.player.inventory.size()) {
+
       drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
       for(String line : gp.player.inventory.get(itemIndex).description.split("\n")) {
         g2.drawString(line, textX, textY);
         textY += 32;
       }
+
     }
   }
 
@@ -368,6 +374,7 @@ public class UImanager {
   
     int messageX = gp.tileSize;
     int messageY = gp.tileSize*4;
+
     g2.setFont(g2.getFont().deriveFont(Font.BOLD , 20F));
 
     for(int i=0; i < message.size(); i++) {
@@ -379,6 +386,7 @@ public class UImanager {
 
         int counter = messageCounter.get(i) + 1;
         messageCounter.set(i , counter);
+
         if(messageCounter.get(i) > 120) {
           message.remove(i);
           messageCounter.remove(i);
@@ -389,18 +397,25 @@ public class UImanager {
   }
 
   public int getItemIndexOnSlot() {
+
     return slotCol + (slotRow * 5);
+
   }
+  
   public int getXForCenteredText(String text) {
+
     int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     int x = gp.screenWidth/2 - length/2;
     return x;
+
   }
 
   public int getXForRightAlignText(String text , int tailX) {
+
     int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     int x = tailX - length;
     return x;
+
   }
     
     

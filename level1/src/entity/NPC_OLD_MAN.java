@@ -27,25 +27,46 @@ public class NPC_OLD_MAN extends Entity{
   }
 
   public void setAction() {
-    actionLockCounter++;
-    if(actionLockCounter == 120) {
-      Random random = new Random();
-      int i = random.nextInt(100)+1;
 
-      if(i <= 25) {
-        direction = "up";
+    actionLockCounter++;
+
+    if(immobile == false) {
+
+      if(actionLockCounter == 120) {
+        Random random = new Random();
+        int i = random.nextInt(100)+1;
+  
+        if(i <= 25) {
+          direction = "up";
+        }
+        else if(i > 25 && i <= 50 && worldY < 1400) {
+            direction = "down";
+        }
+        else if(i > 50 && i <= 75) {
+          direction = "left";
+        }
+        else if(i > 75) {
+          direction = "right";
+        }
+        actionLockCounter = 0;
       }
-      else if(i > 25 && i <= 50) {
-        direction = "down";
+
+      if(immobileCounter > 120) {
+        immobileCounter = 0;
+        immobile = false;
+
       }
-      else if(i > 50 && i <= 75) {
-        direction = "left";
-      }
-      else if(i > 75) {
-        direction = "right";
-      }
-      actionLockCounter = 0;
+
     }
+    else {
+
+      immobileCounter++;
+      if(immobileCounter > 120) {
+        immobileCounter = 0;
+        immobile = false;
+      }
+    }
+    
     
   }
 
@@ -58,10 +79,12 @@ public class NPC_OLD_MAN extends Entity{
   }
 
   public void speak() {
-    if(dialogueIndex > 4)
-    dialogueIndex = 0;
+
+    if(dialogueIndex > 4) { dialogueIndex = 0; }
+  
     gp.uiManager.currentDialogue = dialogues[dialogueIndex++];
 
     facePlayer();
+    immobile = true; //Stays Immobile when talking to player
   }
 }

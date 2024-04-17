@@ -1,7 +1,6 @@
 package game;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 
 public class UtilityTool {

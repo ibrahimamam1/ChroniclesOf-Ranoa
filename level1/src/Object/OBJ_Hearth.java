@@ -4,7 +4,9 @@ import entity.Entity;
 import game.GamePanel;
 
 public class OBJ_Hearth extends Entity{
+
   GamePanel gp;
+
   public OBJ_Hearth(GamePanel gp) {
     super(gp);
     name = "Hearth";
@@ -13,4 +15,5 @@ public class OBJ_Hearth extends Entity{
     image3 = setup("/assets/Object/heart_full" , gp.tileSize , gp.tileSize);
     
   }
+  
 }

@@ -11,6 +11,7 @@ import game.GamePanel;
 public class Mon_Green_Slime extends Entity{
 
   public Mon_Green_Slime(GamePanel gp) {
+
     super(gp);
     
     name = "Green Slime";
@@ -30,9 +31,11 @@ public class Mon_Green_Slime extends Entity{
     solidAreaDefaultX = solidArea.x;
     solidAreaDefaultY = solidArea.y;
     getImage();
+
   }
 
   public void getImage() {
+
     up1 = setup("/assets/Monster/greenslime_down_1" , gp.tileSize , gp.tileSize);
     up2 = setup("/assets/Monster/greenslime_down_2" , gp.tileSize , gp.tileSize);
     left1 = setup("/assets/Monster/greenslime_down_1" , gp.tileSize , gp.tileSize);
@@ -41,16 +44,18 @@ public class Mon_Green_Slime extends Entity{
     down2 = setup("/assets/Monster/greenslime_down_2" , gp.tileSize , gp.tileSize);
     right1 = setup("/assets/Monster/greenslime_down_1" , gp.tileSize , gp.tileSize);
     right2 = setup("/assets/Monster/greenslime_down_2" , gp.tileSize , gp.tileSize);
+
   }
 
   public void setAction() {
+
     actionLockCounter++;
     if(actionLockCounter == 120) {
       Random random = new Random();
       int i = random.nextInt(100)+1;
 
-      if(i <= 25) {
-        direction = "up";
+      if(i <= 25 && this.worldY > 1700) {
+          direction = "up";
       }
       else if(i > 25 && i <= 50) {
         direction = "down";
@@ -63,27 +68,26 @@ public class Mon_Green_Slime extends Entity{
       }
       actionLockCounter = 0;
     }
-
-    int i = new Random().nextInt(100)+1;
-    if(i > 99 && projectile.alive == false && shotAvailableCounter == 30) {
-      projectile.set(worldX, worldY, direction, true, this);
-      gp.projectileList.add(projectile);
-      shotAvailableCounter = 0;
-    }
     
   }
+
   public void damageReaction() {
+
     actionLockCounter = 0;
     direction = gp.player.direction;
+    
+    if(direction == "up" && worldY <= 1700) { direction = "down"; }
+
   }
 
   public void checkDrop() {
+
     int i = new Random().nextInt(100) + 1;
 
-    if(i < 50) {
+    if(i <= 80) {
       dropItem(new OBJ_Bronze_Coin(gp));
     }
-    if(i >= 50) {
+    if(i >= 80) {
       dropItem(new OBJ_Red_Potion(gp));
     }
   }

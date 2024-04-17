@@ -47,6 +47,7 @@ public class Entity {
   public int actionLockCounter = 0; // count what actions NPC does for how long
   public int dyingCounter = 0;
   public int shotAvailableCounter = 0;
+  public int immobileCounter = 0;
 
   //SOLID AREA
   public Rectangle solidArea = new Rectangle(0 , 0 , 48 , 48);
@@ -60,6 +61,7 @@ public class Entity {
   public BufferedImage idle , idle_right , idle_left , idle_up , idle_down , up1 , up2 , down1 , down2 , left1 , left2 , right1 , right2;
   public BufferedImage attack_up1 , attack_up2 ,attack_down1 , attack_down2 , attack_left1 , attack_left2 , attack_right1 , attack_right2;
   public String direction = "idle"; //default direction should be idle
+  public boolean immobile = false;
   public String name;
   public String dialogues[] = new String[20];
   public int dialogueIndex = 0;
@@ -102,10 +104,15 @@ public class Entity {
   }
 
   public void setAction() {}
+
   public void damageReaction() {}
+
   public void use(Entity entity) {}
+
   public void checkDrop() {};
+
   public void dropItem(Entity droppedItem) {
+
     for(int i=0; i<gp.obj.length; i++) {
       if(gp.obj[i] == null) {
         gp.obj[i] = droppedItem;
@@ -114,44 +121,53 @@ public class Entity {
         break;
       }
     }
+
   }
 
   public void update() {
+
     setAction();
+
+    //CHECK CONTACT WITH PLAYER
+    boolean contact = gp.colisionDetector.checkPlayer(this);
+    if(contact && type == entityType.MONSTER) {
+      damagePlayer(attack);
+    }
+
+    //CHECK OTHER COLLISIONS
     colisionOn = false;
     gp.colisionDetector.checkTile(this);
     gp.colisionDetector.checkObject(this, false);
     gp.colisionDetector.checkEntity(this , gp.npc);
     gp.colisionDetector.checkEntity(this , gp.monster);
-    boolean contact = gp.colisionDetector.checkPlayer(this);
 
-    if(contact && type == entityType.MONSTER) {
-      damagePlayer(attack);
-    }
+    if(immobile == false) {
+      if(this.colisionOn ==  false) {
 
-    if(this.colisionOn ==  false) {
-      switch(direction) {
-        case "up" : 
-          worldY -= speed;  
-          break;
-        case "down" : 
-          worldY += speed;
-          break;
-        case "left" : 
-          worldX-= speed;
-          break;
-        case "right" : 
-          worldX += speed;
-          break;
+        switch(direction) {
+          case "up" : 
+            worldY -= speed;  
+            break;
+          case "down" : 
+            worldY += speed;
+            break;
+          case "left" : 
+            worldX-= speed;
+            break;
+          case "right" : 
+            worldX += speed;
+            break;
+        
+          }
       }
-    }
-    //simple sprite changer , the sprite will change after every 10 frames
-    spriteCounter++;
-    if(spriteCounter>10){
-      if(spriteNum == 1) spriteNum = 2;
-      else if(spriteNum == 2) spriteNum = 1;
+      //simple sprite changer , the sprite will change after every 10 frames
+      spriteCounter++;
+      if(spriteCounter>10){
+        if(spriteNum == 1) spriteNum = 2;
+        else if(spriteNum == 2) spriteNum = 1;
 
-      spriteCounter = 0;
+        spriteCounter = 0;
+      }
     }
 
     if(invincible == true) {
@@ -168,18 +184,24 @@ public class Entity {
   }
   
   public void damagePlayer(int attack) {
+
     if(gp.player.invincible == false) {
+
       int damage = attack - gp.player.defense;
       if(damage < 0) damage = 0;
       gp.player.life -= damage;
       gp.player.invincible = true;
+
     }
+
   }
+  
   public void speak() {}
 
   public void facePlayer() {
 
-    switch (direction) {
+    switch (gp.player.direction) {
+
       case "up": direction = "down"; break;
       case "down": direction = "up"; break;
       case "left": direction = "right"; break;
@@ -187,6 +209,7 @@ public class Entity {
     
     }
   }
+
   public void draw(Graphics2D g2) {
      //position of tile on screen
      int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -224,7 +247,7 @@ public class Entity {
               break;
           }
 
-          //monsetr healthbar
+          //MOSTER HEALTHBAR
           if(type == entityType.MONSTER && hpBarOn) {
             double oneHealthUnit = (double)gp.tileSize/maxlife;
             double hpBarValue = oneHealthUnit * life;
@@ -256,6 +279,7 @@ public class Entity {
   }
 
   public void dyingAnimation(Graphics2D g2) {
+
     dyingCounter++;
     if(dyingCounter <= 5 || (dyingCounter>10 && dyingCounter <=15) || (dyingCounter > 20 && dyingCounter <= 25)) {
       g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));

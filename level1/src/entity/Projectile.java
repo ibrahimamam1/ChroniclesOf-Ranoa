@@ -8,14 +8,15 @@ public class Projectile extends Entity{
   public int useCost;
 
   public Projectile(GamePanel gp) {
+
     super(gp);
-    
   }
 
-  public void set(int worldX , int worldY , String direction , boolean alive , Entity user){
+  public void set(int worldX , int worldY , String direction , Entity user){
 
     this.worldX = worldX;
     this.worldY = worldY;
+
     if(direction == "left" || direction == "right" || direction == "up" || direction == "down") {
       this.direction = direction;
     }
@@ -32,14 +33,16 @@ public class Projectile extends Entity{
       this.direction = "right";
     }
     
-    this.alive = alive;
+    this.alive = true;
     this.user = user;
     this.life = maxlife;
+
   }
 
   public void update() {
 
     if(user == gp.player) {
+
       int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
       if(monsterIndex != -1) {
         gp.player.damageMonster(monsterIndex , attack);
@@ -48,11 +51,13 @@ public class Projectile extends Entity{
     }
 
     else if(user != gp.player) {
+
       boolean contactPlayer = gp.colisionDetector.checkPlayer(this);
       if(gp.player.invincible == false && contactPlayer == true) {
         damagePlayer(attack);
         alive = false;
       }
+      
     }
 
     switch(direction) {
@@ -77,6 +82,7 @@ public class Projectile extends Entity{
       }
       spriteCounter = 0;
     }
+
   }
   
   public boolean haveResource(Entity user) {return false;}

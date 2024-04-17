@@ -4,7 +4,9 @@ import entity.Entity;
 import game.GamePanel;
 
 public class OBJ_King_Sword extends Entity{
+
   public OBJ_King_Sword(GamePanel gp) {
+    
     super(gp);
     name = "Red King Sword";
     image = setup("/assets/Object/sword_normal", gp.tileSize, gp.tileSize);
@@ -15,4 +17,5 @@ public class OBJ_King_Sword extends Entity{
     direction = "down";
     type = entityType.SWORD;
   }
+
 }

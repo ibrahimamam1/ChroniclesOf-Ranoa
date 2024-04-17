@@ -1,11 +1,7 @@
 package game;
 
-import Object.OBJ_Bronze_Coin;
-import Object.OBJ_King_Sword;
-import Object.OBJ_Red_Potion;
 import entity.NPC_OLD_MAN ;
 import monster.Mon_Green_Slime;
-
 
 
 public class AssetSetter {
@@ -19,22 +15,7 @@ public class AssetSetter {
   //CREATE AND PLACE ALL OBJECTS
   public void setObject() {
     
-    int i=0;
-
-    gp.obj[i] = new OBJ_King_Sword(gp); 
-    gp.obj[i].worldX = gp.tileSize*24;
-    gp.obj[i].worldY = gp.tileSize*21;
-    i++;
-
-    gp.obj[i] = new OBJ_Red_Potion(gp); 
-    gp.obj[i].worldX = gp.tileSize*30;
-    gp.obj[i].worldY = gp.tileSize*21;
-    i++;
-
-    gp.obj[i] = new OBJ_Bronze_Coin(gp); 
-    gp.obj[i].worldX = gp.tileSize*23;
-    gp.obj[i].worldY = gp.tileSize*26;
-    i++;
+    
   }
 
   //CREATE AND PLACE ALL NPCS
