@@ -210,6 +210,30 @@ public class Entity {
     }
   }
 
+  //-- ENTITY PARTICLE GENERATION. ONLY FOR ENTITIES THAT NEED TO GENERATE PARTICLES FOR VISUAL EFFECT
+  public Color getParticleColor() { return null; }
+  public int getparticleSize() { return 0; }
+  public int getParticleSpeed() { return 0; }
+  public int getParticleMaxlife() { return 0; } 
+
+  public void generateParticle(Entity generator , Entity target) { 
+
+    Color color = generator.getParticleColor();
+    int size = generator.getparticleSize();
+    int speed = generator.getParticleSpeed();
+    int maxlife = generator.getParticleMaxlife();
+
+
+    Particle p1 = new Particle(gp, generator, color, size, speed, maxlife, -1, -1);
+    gp.particleList.add(p1);
+    Particle p2 = new Particle(gp, generator, color, size, speed, maxlife, -1, 1);
+    gp.particleList.add(p2);
+    Particle p3 = new Particle(gp, generator, color, size, speed, maxlife, 1, -1);
+    gp.particleList.add(p3);
+    Particle p4 = new Particle(gp, generator, color, size, speed, maxlife, 1, 1);
+    gp.particleList.add(p4);
+
+  }
   public void draw(Graphics2D g2) {
      //position of tile on screen
      int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -219,7 +243,6 @@ public class Entity {
      if(worldX > gp.player.worldX - gp.player.screenX - gp.tileSize && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize&&
        worldY > gp.player.worldY - gp.player.screenY - gp.tileSize && worldY < gp.player.worldY + gp.player.screenY + gp.tileSize)
        {
-          BufferedImage image = null;
           switch(direction){
             case "up":
               if(spriteNum == 1)

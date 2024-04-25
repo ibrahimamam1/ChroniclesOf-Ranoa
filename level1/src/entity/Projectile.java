@@ -46,6 +46,7 @@ public class Projectile extends Entity{
       int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
       if(monsterIndex != -1) {
         gp.player.damageMonster(monsterIndex , attack);
+        generateParticle(user.projectile, gp.monster[monsterIndex]);
         alive = false;
       }
     }

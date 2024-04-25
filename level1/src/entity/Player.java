@@ -19,6 +19,7 @@ public class Player extends Entity{
   public int screenY; 
 
   public boolean attackCancel = false;
+
   public ArrayList<Entity>inventory = new ArrayList<>();
   public final int maxInventory = 20;
 
@@ -125,8 +126,32 @@ public class Player extends Entity{
         direction = "right";
       }
       
+      //--  CHECK COLLISIONS. WILL SET A BOOLEAN TO TRUE IF ANY FORM OF COLLISION OCCURS --- 
+
+
       //CHECK Tile COLLISIONS
       gp.colisionDetector.checkTile(this);
+
+      //CHECK OBJECT COLLISIONS  , RETURNS WHICH OBJECT
+      int objIndex = gp.colisionDetector.checkObject(this, true);
+      pickUpObject(objIndex);
+
+      //CHECK NPC COLLISIONS , RETURNS WHICH NPC
+      int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
+      if(npcIndex != -1 && gp.keyH.enterPressed == true ) { interactNpc(npcIndex); }
+
+
+      //CHECK MONSTER COLLISIONS , RETURNS WHICH MONSTER
+      int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
+      contactMonster(monsterIndex);
+
+      //CHECK COLLISION WITH INTERACTIVE TILES
+      gp.colisionDetector.checkEntity(this, gp.interactiveTile);
+      
+      //CHECK EVENTS AND ACTIVATE THEM
+      gp.eventhandler.checKEvent();
+     
+      
       if(this.colisionOn ==  false && gp.keyH.enterPressed == false) { //No Collision player can move
         switch(direction) {
           case "up" : 
@@ -143,23 +168,6 @@ public class Player extends Entity{
             break;
         }
       }
-
-      //CHECK OBJECT COLLISIONS
-      int objIndex = gp.colisionDetector.checkObject(this, true);
-      pickUpObject(objIndex);
-
-      //CHECK NPC COLLISIONS
-      int npcIndex = gp.colisionDetector.checkEntity(this , gp.npc);
-      if( npcIndex != -1 && gp.keyH.enterPressed == true) { interactNpc(npcIndex); }
-
-
-      //CHECK MONSTER COLLISIONS
-      int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
-      contactMonster(monsterIndex);
-      
-      //CHECK EVENTS AND ACTIVATE THEM
-      gp.eventhandler.checKEvent();
-     
 
       if(gp.keyH.enterPressed == true && attackCancel == false) {
         attacking = true;
@@ -242,7 +250,7 @@ public class Player extends Entity{
   }
 
   public void interactNpc(int i) {
-    
+
           attackCancel = true;
           gp.gameState = gp.dialogueState;
           gp.npc[i].speak();
@@ -300,6 +308,10 @@ public class Player extends Entity{
       //check monster collison
       int monsterIndex = gp.colisionDetector.checkEntity(this, gp.monster);
       if(monsterIndex != -1) { damageMonster(monsterIndex , attack) ;}
+
+      //CHEK ATTACK ON INTERACTIVE TILE
+      int interactiveTileIndex = gp.colisionDetector.checkEntity(this, gp.interactiveTile);
+      if(interactiveTileIndex != -1) { damageInteractiveTile(interactiveTileIndex) ; }
 
 
       //Restore original area occupied by player
@@ -359,6 +371,15 @@ public class Player extends Entity{
 
     }
 
+  }
+
+  public void damageInteractiveTile(int index) {
+
+      if(gp.interactiveTile[index].isDestructible == true) {
+        gp.interactiveTile[index] = gp.interactiveTile[index].getDestroyedForm();
+        gp.interactiveTile[index].playSE();
+        generateParticle(gp.interactiveTile[index], gp.interactiveTile[index]);
+      }
   }
 
   public void selectItem() {

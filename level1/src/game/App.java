@@ -3,10 +3,9 @@ package game;
 import javax.swing.JFrame;
 
 public class App {
+
+    public static JFrame window = new JFrame();
     public static void main(String[] args) throws Exception {
-        JFrame window = new JFrame();
-
-
         
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
