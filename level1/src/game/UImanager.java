@@ -65,6 +65,10 @@ public class UImanager {
       drawInventory(g2);
     }
 
+    else if(gp.gameState == gp.gameOverState) {
+      drawGameOverScreen(g2);
+    }
+
   }
   
   public void drawTitleScreen(Graphics2D g2) {
@@ -73,7 +77,7 @@ public class UImanager {
     
     //TITLE
     g2.setFont(g2.getFont().deriveFont(Font.BOLD , 60F));
-    String text = "Chronicles Of Ranoa";
+    String text = "Tales Of Mysticiya";
     int x = getXForCenteredText(text);
     int y = gp.tileSize*3;
 
@@ -370,6 +374,49 @@ public class UImanager {
     }
   }
 
+  public void drawGameOverScreen(Graphics2D g2) {
+
+    g2.setColor(new Color(0 , 0 , 0 , 150));
+    g2.fillRect(0 , 0, gp.screenWidth, gp.screenHeight);
+
+    int x;
+    int y;
+
+    String text;
+    g2.setFont(g2.getFont().deriveFont(Font.BOLD , 110f));
+    text = "YOU DIED";
+
+    //SHADOW
+    g2.setColor(Color.black);
+    x = getXForCenteredText(text);
+    y = gp.tileSize * 4;
+
+    //MAIN
+    g2.setColor(Color.white);
+    g2.drawString(text , x-4 , y-4);
+
+
+    //RETRY
+    g2.setFont(g2.getFont().deriveFont(50f));
+    text = "Retry";
+    x = getXForCenteredText(text);
+    y += gp.tileSize*4;
+    g2.drawString(text, x, y);
+
+    if(menuOption == 0) {
+      g2.drawString(">", x-40, y);
+    }
+
+    //Back to title Screen
+    text = "Quit";
+    x = getXForCenteredText(text);
+    y += 55;
+    g2.drawString(text, x, y);
+
+    if(menuOption == 1) {
+      g2.drawString(">", x-40, y);
+    }
+  }
   public void drawMessage(Graphics2D g2) {
   
     int messageX = gp.tileSize;

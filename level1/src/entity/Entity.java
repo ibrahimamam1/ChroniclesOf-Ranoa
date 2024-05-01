@@ -65,6 +65,7 @@ public class Entity {
   public String name;
   public String dialogues[] = new String[20];
   public int dialogueIndex = 0;
+  public int dialogueLength;
   public int value;
   public boolean walkable = false;
   boolean attacking = false;

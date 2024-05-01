@@ -27,6 +27,27 @@ public class Player extends Entity{
 
     super(gp);
 
+    setDefaultStats();
+
+    //PLAYER SPRITES AND ANIMATIONS
+    getPlayerImage();
+    getPlayerAttackImages();
+
+    //PLAYER"S HITABLE AREA
+    solidArea = new Rectangle(8 ,  16 , 32  , 32); //solid area dimesions is smaller than actual character
+    solidAreaDefaultX = 8;
+    solidAreaDefaultY =  32;
+    direction = "idle_down";
+
+    //PLAYERS ATTACK RANGE
+    attackArea.width = 36;
+    attackArea.height = 36;
+
+    setDefaultItems();
+
+  }
+
+  public void setDefaultStats() {
     currentWeapon = new OBJ_Basic_Sword(gp);
     projectile = new Fireball(gp);
 
@@ -51,57 +72,56 @@ public class Player extends Entity{
     worldY = 1000;
     screenX = (gp.screenWidth/2) - (gp.tileSize/2);
     screenY = (gp.screenHeight/2) - (gp.tileSize/2);
+  }
 
-    //PLAYER SPRITES AND ANIMATIONS
-    getPlayerImage();
-    getPlayerAttackImages();
-
-    //PLAYER"S HITABLE AREA
-    solidArea = new Rectangle(8 ,  16 , 32  , 32); //solid area dimesions is smaller than actual character
-    solidAreaDefaultX = 8;
-    solidAreaDefaultY =  32;
-    direction = "idle_down";
-
-    //PLAYERS ATTACK RANGE
-    attackArea.width = 36;
-    attackArea.height = 36;
+  public void setDefaultItems() {
 
     //PLAYER"S DEFAULT INVENTORY ITEMS
+    inventory.clear();
     inventory.add(currentWeapon);
     inventory.add(new OBJ_Red_Potion(gp));
     inventory.add(new OBJ_Mana_Crystal(gp));
-
   }
-
   public void getPlayerImage(){
    
-    idle_right = setup("/assets/characters/idle_right1"  , gp.tileSize * 2 , gp.tileSize * 2);
-    idle_left = setup("/assets/characters/idle_left1"  , gp.tileSize * 2 , gp.tileSize * 2);
-    idle_up = setup("/assets/characters/idle_up1"  , gp.tileSize * 2 , gp.tileSize * 2);
-    idle_down = setup("/assets/characters/idle_down1"  , gp.tileSize * 2 , gp.tileSize * 2);
-    up1 = setup("/assets/characters/run_up_1"  , gp.tileSize * 2 , gp.tileSize * 2 );
-    up2 = setup("/assets/characters/run_up_2"  , gp.tileSize * 2 , gp.tileSize * 2);
-    down1 = setup("/assets/characters/run_down_1" , gp.tileSize * 2 , gp.tileSize * 2);
-    down2 = setup("/assets/characters/run_down_2" , gp.tileSize * 2 , gp.tileSize * 2);
-    left1 = setup("/assets/characters/run_left_1" , gp.tileSize * 2 , gp.tileSize * 2);
-    left2 = setup("/assets/characters/run_left_2" , gp.tileSize * 2 , gp.tileSize * 2);
-    right1 = setup("/assets/characters/run_right_1" , gp.tileSize * 2 , gp.tileSize * 2);
-    right2 = setup("/assets/characters/run_right_2" , gp.tileSize * 2 , gp.tileSize * 2);
+    idle_right = setup("/assets/characters/boy_idle_right"  , gp.tileSize * 2 , gp.tileSize * 2);
+    idle_left = setup("/assets/characters/boy_idle_left"  , gp.tileSize * 2 , gp.tileSize * 2);
+    idle_up = setup("/assets/characters/boy_idle_up"  , gp.tileSize * 2 , gp.tileSize * 2);
+    idle_down = setup("/assets/characters/boy_idle_down"  , gp.tileSize * 2 , gp.tileSize * 2);
+    up1 = setup("/assets/characters/boy_up_1"  , gp.tileSize * 2 , gp.tileSize * 2 );
+    up2 = setup("/assets/characters/boy_up_2"  , gp.tileSize * 2 , gp.tileSize * 2);
+    down1 = setup("/assets/characters/boy_down_1" , gp.tileSize * 2 , gp.tileSize * 2);
+    down2 = setup("/assets/characters/boy_down_2" , gp.tileSize * 2 , gp.tileSize * 2);
+    left1 = setup("/assets/characters/boy_left_1" , gp.tileSize * 2 , gp.tileSize * 2);
+    left2 = setup("/assets/characters/boy_left_2" , gp.tileSize * 2 , gp.tileSize * 2);
+    right1 = setup("/assets/characters/boy_right_1" , gp.tileSize * 2 , gp.tileSize * 2);
+    right2 = setup("/assets/characters/boy_right_2" , gp.tileSize * 2 , gp.tileSize * 2);
 
   }
 
   public void getPlayerAttackImages() {
-    attack_up1 = setup("/assets/characters/attack_up1", gp.tileSize * 2, gp.tileSize * 2);
-    attack_up2 = setup("/assets/characters/attack_up2", gp.tileSize * 2, gp.tileSize * 2);
-    attack_down1 = setup("/assets/characters/attack_down1", gp.tileSize * 2, gp.tileSize * 2);
-    attack_down2 = setup("/assets/characters/attack_down2", gp.tileSize * 2, gp.tileSize * 2);
-    attack_left1 = setup("/assets/characters/attack_left1", gp.tileSize * 2, gp.tileSize * 2);
-    attack_left2 = setup("/assets/characters/attack_left2", gp.tileSize * 2, gp.tileSize * 2);
-    attack_right1 = setup("/assets/characters/attack_right1", gp.tileSize * 2, gp.tileSize * 2);
-    attack_right2 = setup("/assets/characters/attack_right2", gp.tileSize * 2, gp.tileSize * 2);
+    attack_up1 = setup("/assets/characters/attack_up_1", gp.tileSize * 2, gp.tileSize * 2);
+    attack_up2 = setup("/assets/characters/attack_up_2", gp.tileSize * 2, gp.tileSize * 2);
+    attack_down1 = setup("/assets/characters/attack_down_1", gp.tileSize * 2, gp.tileSize * 2);
+    attack_down2 = setup("/assets/characters/attack_down_2", gp.tileSize * 2, gp.tileSize * 2);
+    attack_left1 = setup("/assets/characters/attack_left_1", gp.tileSize * 2, gp.tileSize * 2);
+    attack_left2 = setup("/assets/characters/attack_left_2", gp.tileSize * 2, gp.tileSize * 2);
+    attack_right1 = setup("/assets/characters/attack_right_1", gp.tileSize * 2, gp.tileSize * 2);
+    attack_right2 = setup("/assets/characters/attack_right_2", gp.tileSize * 2, gp.tileSize * 2);
   }
 
-  
+  public void setDefaultPositions() {
+    //DEFAULT POSITION
+    worldX = 1100;
+    worldY = 1000;
+    direction = "down";
+  }
+
+  public void restoreLifeAndMana() { //AFTER DEATH
+    life = maxlife;
+    mana = maxMana;
+    invincible = false;
+  }
   public void update()
   {
 
@@ -213,6 +233,11 @@ public class Player extends Entity{
     }
     if(shotAvailableCounter < 30) {
       shotAvailableCounter++;
+    }
+
+    //CHECK LIFE
+    if(life <= 0) {
+      gp.gameState = gp.gameOverState;
     }
 
   }
@@ -537,7 +562,7 @@ public class Player extends Entity{
     if(invincible == true) {
       g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.3f));
     }
-    g2.drawImage(image, screenX, screenY , null);
+    g2.drawImage(image, screenX, screenY , gp.tileSize*2 , gp.tileSize*2,  null);
     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
   }
 }

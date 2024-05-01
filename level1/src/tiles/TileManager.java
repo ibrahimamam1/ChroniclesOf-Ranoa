@@ -83,7 +83,7 @@ public class TileManager {
 
       tile[index] = new Tile();
       tile[index].image = ImageIO.read(getClass().getResource("/assets/tilesets/" + imagePath + ".png"));
-      tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+      //tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
       tile[index].walkable = isWalkable;
 
     } 
@@ -136,7 +136,7 @@ public class TileManager {
         if(worldX > gp.player.worldX - gp.player.screenX - gp.tileSize && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize&&
           worldY > gp.player.worldY - gp.player.screenY - gp.tileSize && worldY < gp.player.worldY + gp.player.screenY + gp.tileSize)
           {
-            g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , null);
+            g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , gp.tileSize , gp.tileSize, null);
           }
       }
     } 

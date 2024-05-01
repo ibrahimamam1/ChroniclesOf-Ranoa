@@ -78,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
   public final int pauseState = 2;
   public final int dialogueState = 3;
   public final int characterStatusState = 4;
+  public final int gameOverState = 5;
 
   
 
@@ -91,6 +92,12 @@ public class GamePanel extends JPanel implements Runnable{
     this.setFocusable(true);
     
   }
+
+  public void startGameThread(){
+    setupGame();
+    gameThread.start();
+  }
+
 
   public void setupGame() {
 
@@ -108,11 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
     gameState = titleState;
   }
 
-  public void startGameThread(){
-    setupGame();
-    gameThread.start();
-  }
-
+ 
   @Override
   public void run() {
 
@@ -213,6 +216,23 @@ public class GamePanel extends JPanel implements Runnable{
 
   }
 
+  public void retry() {
+
+    player.setDefaultPositions();
+    player.restoreLifeAndMana();
+    assetSetter.setNPC();
+    assetSetter.setMonster();
+  }
+
+  public void restart() {
+    
+    player.setDefaultStats();
+    player.setDefaultItems();
+    assetSetter.setObject();
+    assetSetter.setNPC();
+    assetSetter.setMonster();
+    assetSetter.setInteractiveTiles();
+  }
   public void setFullScreen() {
 
     //GET LOCAL SCREEN CHARACTERISTICS

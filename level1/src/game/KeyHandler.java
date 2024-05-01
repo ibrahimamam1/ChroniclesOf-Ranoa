@@ -151,6 +151,38 @@ public class KeyHandler implements KeyListener{
         gp.player.selectItem();
       }
     }
+
+    //GAME OVER STATE
+    if(gp.gameState == gp.gameOverState) {
+
+      if(code == KeyEvent.VK_W) {
+        gp.uiManager.menuOption--;
+        if(gp.uiManager.menuOption < 0) {
+          gp.uiManager.menuOption = 1;
+        }
+        gp.playSoundEffect(8);
+      }
+
+      if(code == KeyEvent.VK_S) {
+        gp.uiManager.menuOption++;
+        if(gp.uiManager.menuOption > 1) {
+          gp.uiManager.menuOption = 0;
+        }
+        gp.playSoundEffect(8);
+      }
+
+      if(code == KeyEvent.VK_ENTER) {
+        if(gp.uiManager.menuOption == 0) {
+          gp.gameState = gp.playState;
+          gp.retry();
+        }
+        else if(gp.uiManager.menuOption == 1) {
+          gp.gameState = gp.titleState;
+          gp.restart();
+        }
+        gp.playSoundEffect(8);
+      }
+    }
   }
 
   @Override

@@ -1,6 +1,8 @@
 package game;
 
+import entity.NPC_NOBLE_MAN;
 import entity.NPC_OLD_MAN ;
+import entity.NPC_Peasant;
 import interativeTile.ITile_DryTree;
 import monster.Mon_Green_Slime;
 
@@ -23,9 +25,14 @@ public class AssetSetter {
   public void setNPC() {
 
     int i=0;
-    gp.npc[i] =  new NPC_OLD_MAN(gp);
+    gp.npc[i] =  new NPC_NOBLE_MAN(gp);
     gp.npc[i].worldX = gp.tileSize*21;
     gp.npc[i].worldY = gp.tileSize*21;
+    i++;
+
+    gp.npc[i] =  new NPC_Peasant(gp);
+    gp.npc[i].worldX = gp.tileSize*21;
+    gp.npc[i].worldY = gp.tileSize*30;
     i++;
 
   }
@@ -43,6 +50,22 @@ public class AssetSetter {
     gp.monster[i].worldX = gp.tileSize * 22;
     gp.monster[i].worldY = gp.tileSize * 37;
     i++;
+
+    gp.monster[i] = new Mon_Green_Slime(gp);
+    gp.monster[i].worldX = gp.tileSize * 25;
+    gp.monster[i].worldY = gp.tileSize * 37;
+    i++;
+
+    gp.monster[i] = new Mon_Green_Slime(gp);
+    gp.monster[i].worldX = gp.tileSize * 37;
+    gp.monster[i].worldY = gp.tileSize * 37;
+    i++;
+
+    gp.monster[i] = new Mon_Green_Slime(gp);
+    gp.monster[i].worldX = gp.tileSize * 35;
+    gp.monster[i].worldY = gp.tileSize * 37;
+    i++;
+
     
   }
 
