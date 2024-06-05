@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class SoundManager {
+
   Clip clip;
   URL soundUrl[] = new URL[30];
 
@@ -22,13 +23,17 @@ public class SoundManager {
     soundUrl[7] =  getClass().getResource("/assets/Sound/levelup.wav");
     soundUrl[8] =  getClass().getResource("/assets/Sound/cursor.wav");
     soundUrl[9] =  getClass().getResource("/assets/Sound/burning.wav");
+
   }
 
   public void setFile(int i) {
+
     try {
+
       AudioInputStream  ais = AudioSystem.getAudioInputStream(soundUrl[i]);
       clip = AudioSystem.getClip();
       clip.open(ais);
+
     }
     catch(Exception e) {
       e.printStackTrace();
@@ -38,9 +43,11 @@ public class SoundManager {
   public void play() {
     clip.start();
   }
+
   public void loop() {
-    clip.loop(clip.LOOP_CONTINUOUSLY);
+    clip.loop(Clip.LOOP_CONTINUOUSLY);
   }
+  
   public void stop() {
     clip.stop();
   }

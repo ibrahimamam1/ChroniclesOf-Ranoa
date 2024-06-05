@@ -16,14 +16,17 @@ public class OBJ_Red_Potion extends Entity{
     direction = "down";
     type = entityType.CONSUMABLE;
     value = 2;
+
   }
 
   public void use(Entity entity) {
+
     entity.life += value;
     if(gp.player.life > gp.player.maxlife) {
       gp.player.life = gp.player.maxlife;
     }
     gp.playSoundEffect(2);
+    
   }
   
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 
@@ -15,7 +16,7 @@ public class TileManager {
   GamePanel gp;
   public Tile[] tile;
   public int mapTileNum[][]; // array storing map position of each tile
-
+  boolean drawpath = true;
 
   public TileManager(GamePanel gp) {
 
@@ -28,12 +29,12 @@ public class TileManager {
 
   public void getTileImage() {
     //------------PLACEHOLDERS ------------
-      setup(0, "grass00", true);
-      setup(1, "grass00", true);
-      setup(2, "grass00", true);
-      setup(3, "grass00", true);
-      setup(4, "grass00", true);
-      setup(5, "grass00", true);
+      setup(0,"ice",true);
+      setup(1,"wall",false);
+      setup(2,"water",false);
+      setup(3,"soil",true);
+      setup(4,"chris_tree",false);
+      setup(5,"sand",true); 
       setup(6, "grass00", true);
       setup(7, "grass00", true);
       setup(8, "grass00", true);
@@ -72,6 +73,9 @@ public class TileManager {
       setup(39, "earth", true);
       setup(40, "wall", false);
       setup(41, "tree", false);
+      setup(42, "hut", false);
+      setup(43, "table01", false);
+      setup(44, "floor01", false);
       
   }
 
@@ -83,7 +87,7 @@ public class TileManager {
 
       tile[index] = new Tile();
       tile[index].image = ImageIO.read(getClass().getResource("/assets/tilesets/" + imagePath + ".png"));
-      tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+      //tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
       tile[index].walkable = isWalkable;
 
     } 
@@ -97,7 +101,18 @@ public class TileManager {
 
     try {
 
-      InputStream is = getClass().getResourceAsStream("/maps/worldV2.txt");
+      InputStream is = null;
+
+      if(gp.currentLevel == 1) {
+        is = getClass().getResourceAsStream("/maps/worldV3.txt");
+      }
+      else if(gp.currentLevel == 2) {
+        is = getClass().getResourceAsStream("/maps/map_test_02.txt");
+      }
+      else{
+        is = getClass().getResourceAsStream("/maps/worldV2.txt");
+      }
+      
       BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
       for(int i=0; i<gp.maxWorldRow; i++) {
@@ -136,8 +151,24 @@ public class TileManager {
         if(worldX > gp.player.worldX - gp.player.screenX - gp.tileSize && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize&&
           worldY > gp.player.worldY - gp.player.screenY - gp.tileSize && worldY < gp.player.worldY + gp.player.screenY + gp.tileSize)
           {
-            g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , null);
+            g2.drawImage(tile[mapTileNum[i][j]].image, screenX, screenY , gp.tileSize , gp.tileSize, null);
           }
+      }
+    }
+    if(drawpath == true) {
+      g2.setColor(new Color(255 , 0 , 0 , 70));
+      
+      for(int i=0; i < gp.pathFinder.pathList.size(); i++) {
+
+        int worldX = gp.pathFinder.pathList.get(i).col * gp.tileSize;
+        int worldY = gp.pathFinder.pathList.get(i).row * gp.tileSize;
+
+        //position of tile on screen
+        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+        
       }
     } 
   }
