@@ -22,7 +22,7 @@ public class Mon_Skeleton extends Entity{
     speed = 2;
     maxlife = 50;
     life = maxlife;
-    attack = 12;
+    attack = 8;
     defense = 2;
     exp = 10;
     type = entityType.MONSTER;
