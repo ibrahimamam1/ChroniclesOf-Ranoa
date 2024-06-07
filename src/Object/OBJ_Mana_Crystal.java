@@ -15,17 +15,18 @@ public class OBJ_Mana_Crystal extends Entity{
     direction = "down";
     type = entityType.CONSUMABLE;
     value = 2;
+    stackable = true;
 
   }
 
-  public void use(Entity entity) {
+  public boolean use(Entity entity) {
 
     entity.mana += value;
     if(entity.mana > entity.maxMana) {
       entity.mana = entity.maxMana;
     }
     gp.playSoundEffect(2);
-    
+    return true;
   }
   
 }

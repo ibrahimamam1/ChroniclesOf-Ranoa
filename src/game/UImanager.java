@@ -454,6 +454,24 @@ public class UImanager {
 
       //OTHER ITEMS
       g2.drawImage(gp.player.inventory.get(i).image , slotX , slotY , gp.tileSize , gp.tileSize , null);
+      if(gp.player.inventory.get(i).amount > 1) {
+        g2.setFont(g2.getFont().deriveFont(32F));
+
+        int amountX;
+        int amountY;
+
+        String s = "" + gp.player.inventory.get(i).amount;
+        amountX = getXForRightAlignText(s, slotX + 44);
+        amountY = slotY + gp.tileSize;
+
+        //shadow
+        g2.setColor(new Color(60 , 60 , 60));
+        g2.drawString(s, amountX, amountY);
+
+        //number
+        g2.setColor(Color.white);
+        g2.drawString(s, amountX, amountY);
+      }
       slotX += slotSize;
       if(i == 4 || i == 9 || i == 14) {
         slotX =  slotXStart;

@@ -81,7 +81,6 @@ public class Player extends Entity{
     inventory.add(currentWeapon);
     inventory.add(new OBJ_Red_Potion(gp));
     inventory.add(new OBJ_Mana_Crystal(gp));
-    inventory.add(new OBJ_King_Sword(gp));
     System.out.println();
   }
   public void getPlayerImage(){
@@ -265,16 +264,14 @@ public class Player extends Entity{
 
       //PICKUP_ONLY OBJECTS
       if(gp.obj[i].type == entityType.PICKUP_ONLY) {
-
         gp.obj[i].use(this);
-        if(gp.obj[i].name == "Door") {
-          if(hasKey > 0) {
-            gp.obj[i] = null;
-          }
-        }
-        else { gp.obj[i] = null;}
-        
+      }
 
+      else if(gp.obj[i].type == entityType.OBSTACLE) {
+        if(gp.keyH.enterPressed == true) {
+          attackCancel = true;
+          gp.obj[i].interact(i);
+        }
       }
       
       //INVENTORY OBJECTS
@@ -284,9 +281,8 @@ public class Player extends Entity{
           hasKey++;
         }
         String text;
-        if(inventory.size() < maxInventory) {
+        if(obtainItem(gp.obj[i]) == true) {
 
-          inventory.add(gp.obj[i]);
           gp.playSoundEffect(1);
           text = "Picked Up " + gp.obj[i].name;
 
@@ -298,6 +294,54 @@ public class Player extends Entity{
         gp.uiManager.addMessage(text);
       }
     }
+  }
+  public void useKey() {
+
+    for(int i = 0; i<inventory.size(); i++) {
+
+      if(inventory.get(i) != null) {
+        if(inventory.get(i).name == "Key") {
+
+          hasKey--;
+          if(inventory.get(i).amount > 1) {
+            inventory.get(i).amount--;
+          }
+
+          else {inventory.remove(i); }
+          break;
+        }
+      }
+    }
+  }
+
+  public int searchItemInInventory(String itemName) {
+    int itemIndex = -1;
+
+    for(int i=0; i<inventory.size(); i++) {
+      if(inventory.get(i).name.equals(itemName)) {
+        itemIndex = i;
+        break;
+      }
+    }
+    return itemIndex;
+  }
+
+  public boolean obtainItem(Entity item) {
+
+    boolean canObtain = false;
+    int index = searchItemInInventory(item.name);
+    
+    if(item.stackable == false || index == -1) { // NNOT STACKABLE OR NEW ITEM , WE NEED TO CHECK VACANCY
+      if(inventory.size() != maxInventory) {
+        inventory.add(item);
+        canObtain = true;
+      } 
+    }
+    else { //STACKABLE ITEM ALREADY IN INVENTORY
+        inventory.get(index).amount++;
+        canObtain = true;
+      } 
+    return canObtain;
   }
 
   public void interactNpc(int i) {
@@ -392,9 +436,15 @@ public class Player extends Entity{
       }
       if(selectedItem.type == entityType.CONSUMABLE) {
 
-        selectedItem.use(this);
-        inventory.remove(itemIndex);
-
+        if( selectedItem.use(this) == true) {
+          if(selectedItem.amount > 1) {
+            selectedItem.amount--;
+          }
+          else {
+            inventory.remove(itemIndex);
+          }
+        }
+        
       }
     }
   }

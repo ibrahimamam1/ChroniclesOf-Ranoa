@@ -16,9 +16,10 @@ public class OBJ_Bronze_Coin extends Entity{
     value = 1;
   }
 
-  public void use(Entity user) {
+  public boolean use(Entity user) {
     gp.playSoundEffect(1);
     user.coin += value;
+    return true;
   }
   
 }

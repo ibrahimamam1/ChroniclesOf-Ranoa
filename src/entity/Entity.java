@@ -77,19 +77,48 @@ public class Entity {
     MONSTER,
     SWORD,
     CONSUMABLE,
-    PICKUP_ONLY
+    PICKUP_ONLY,
+    OBSTACLE
   };
   public entityType type;
 
 
   //ITEM ATTRIBUTES
   public String description = "";
+  public boolean stackable = false;
+  public int amount = 1;
   
 
   public Entity(GamePanel gp) {
     this.gp = gp;
   }
 
+  //---------GETTER FUNCTIONS FOR RETREIVING ENTITT'S POSITION INFORMATION------------------
+  public int getLeftX() {
+    return worldX + solidArea.x;
+  }
+
+  public int getRightX() {
+    return worldX + solidArea.x + solidArea.width;
+  } 
+
+  public int getTopY() {
+    return worldY + solidArea.y;
+  }
+
+  public int getBottomY() {
+    return worldY + solidArea.y + solidArea.height;
+  }
+
+  public int getRow() {
+    return (worldY + solidArea.y) / gp.tileSize;
+  }
+
+  public int getCol() {
+    return (worldX + solidArea.x) / gp.tileSize;
+  }
+
+  //----------//
   public BufferedImage setup(String imagePath , int width , int height){
 
       UtilityTool uTool = new UtilityTool();
@@ -110,7 +139,7 @@ public class Entity {
 
   public void damageReaction() {}
 
-  public void use(Entity entity) {}
+  public boolean use(Entity entity) { return false;}
 
   public void checkDrop() {};
 
@@ -337,6 +366,48 @@ public class Entity {
     
     }
   }
+
+  public void interact(int i) {}
+  // public int getDetected(Entity user , Entity target[] , String targetName) { //Returns the index of a target if the player is in contact with it, return -1 if there is not
+
+  //   int index = -1;
+
+  //   //Check Sorrounding Object
+  //   int nextWorldX = 0;
+  //   int nextWorldY = 0;;
+
+  //   switch (user.direction) {
+  //     case "up":
+  //       nextWorldY = user.getTopY()-1;
+  //       break;
+
+  //     case "down":
+  //       nextWorldY = user.getBottomY()+1;
+  //       break;
+    
+  //     case "right":
+  //       nextWorldX = user.getRightX()+1;
+  //       break;
+
+  //     case "left":
+  //       nextWorldX = user.getLeftX()-1;
+  //       break;
+  //   }
+
+  //   int col = nextWorldX / gp.tileSize;
+  //   int row = nextWorldY / gp.tileSize;
+
+  //   //TRAVERSE TARGET ARRAY AND CHECK IF THERE IS ANY CONTACT WITH THE THE TARGET NAME
+  //   for(int i=0; i<target.length; i++) {
+  //     if(target[i] != null) {
+  //       if(target[i].getCol() == col && target[i].getRow() == row && target[i].name.equals(targetName)) {
+  //         index = i;
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   return index;  
+  // } 
 
   //-- ENTITY PARTICLE GENERATION. ONLY FOR ENTITIES THAT NEED TO GENERATE PARTICLES FOR VISUAL EFFECT
   public Color getParticleColor() { return null; }

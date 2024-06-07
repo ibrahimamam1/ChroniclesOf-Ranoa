@@ -5,6 +5,7 @@ import Object.OBJ_Chest;
 import Object.OBJ_Door;
 import Object.OBJ_Hearth;
 import Object.OBJ_Key;
+import Object.OBJ_King_Sword;
 import Object.OBJ_Mana_Crystal;
 import Object.OBJ_Red_Potion;
 import entity.NPC_Guru;
@@ -161,7 +162,7 @@ public class AssetSetter {
 //        gp.obj[6].worldX = 16 * gp.tileSize;
 //        gp.obj[6].worldY = 22* gp.tileSize;
 
-        gp.obj[i] = new OBJ_Chest(gp);
+        gp.obj[i] = new OBJ_Chest(gp , new OBJ_King_Sword(gp));
         gp.obj[i].worldX = 35 * gp.tileSize;
         gp.obj[i].worldY = 42 * gp.tileSize;
         i++;
