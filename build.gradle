@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+// Define the main class of your application
+application {
+    mainClass = 'game.App'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src'] // Point to the 'src' directory instead of 'src/main/java'
+        }
+    resources {
+            srcDirs = ['src'] // Point to the 'src' directory instead of 'src/main/resources'
+        }
+    }
+}
+// Repositories to download dependencies from
+repositories {
+    mavenCentral()
+}
+
+// Dependencies (if your project has any)
+dependencies {
+    // Example: Add a dependency (e.g., a library for your game)
+    // implementation 'org.example:some-library:1.0.0'
+}
